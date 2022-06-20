@@ -13,22 +13,32 @@ class ApiClient {
   Future<String> makeAccessToken(
       {required String login, required String password}) async {
     try {
-      final parameters = <String, String>{
-        'email': login,
-        'password': password,
-      };
-      print('makeAccessToken');
 
-      final response = await _dio.post('$_host/auth/sign_in',
-          data: parameters);
+      return Future.delayed(const Duration(milliseconds: 2000), () {
+       if(login == 'admin@test.it' && password == 'admin@test.it') {
+         return 'logged';
+       } else {
+         throw ApiClientException(ApiClientExceptionType.network);
+       }
+      });
 
 
-      print({'response', response});
-      final json = response.data as Map<String, dynamic>;
-
-      final token = json['token'] as String;
-
-      return token;
+      // final parameters = <String, String>{
+      //   'email': login,
+      //   'password': password,
+      // };
+      // print('makeAccessToken');
+      //
+      // final response = await _dio.post('$_host/auth/sign_in',
+      //     data: parameters);
+      //
+      //
+      // print({'response', response});
+      // final json = response.data as Map<String, dynamic>;
+      //
+      // final token = json['token'] as String;
+      //
+      // return token;
     } on SocketException {
       print('network');
 
