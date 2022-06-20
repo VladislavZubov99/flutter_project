@@ -81,8 +81,7 @@ class _LoginScreen extends State<_LoginWidget> {
 
     final authDataStorage = context.read<_AuthDataStorage>();
     return Scaffold(
-      resizeToAvoidBottomInset : false,
-
+      resizeToAvoidBottomInset: false,
       body: Container(
         decoration: const BoxDecoration(
             image: DecorationImage(
@@ -151,7 +150,8 @@ class _LoginScreen extends State<_LoginWidget> {
 
                               Container(
                                 padding: EdgeInsets.symmetric(
-                                    horizontal: size.width * 0.04, vertical: 40),
+                                    horizontal: size.width * 0.04,
+                                    vertical: 40),
                                 child: Column(
                                   children: [
                                     const _DecoratedEmailTextField(),
@@ -283,64 +283,63 @@ class _DecoratedEmailTextField extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
-          width:1.5,
+          width: 1.5,
           color: Colors.grey.withOpacity(0.8),
           style: BorderStyle.solid,
         ),
         borderRadius: BorderRadius.circular(3),
       ),
-      child: Row(
-        children: [
-          Container(
-            height: 49,
-            decoration: BoxDecoration(
-              color: const Color(0xfff2f2f2),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.grey.withOpacity(0.8),
-
-                    offset: const Offset(2, 0),
-                    spreadRadius: 0),
-              ],
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(3),
-                topLeft: Radius.circular(3),
-              ),
-            ),
-            child: const Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Center(
-                child: Icon(Icons.email),
-              ),
-            ),
-          ),
-          Flexible(
-            child: SizedOverflowBox(
-              size: const Size.fromHeight(48),
-              alignment: Alignment.topCenter,
-              child: TextFormField(
-                onChanged: (text) => authDataStorage.login = text,
-                validator: (value) {
-                  return Validator.validateEmail(value ?? "");
-                },
-                decoration: const InputDecoration(
-                  fillColor: Colors.white,
-                  hintText: "Email",
-                  isDense: true,
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent, width: 0),
+      child: SizedOverflowBox(
+        size: const Size.fromHeight(42),
+        alignment: Alignment.topCenter,
+        child: TextFormField(
+          onChanged: (text) => authDataStorage.login = text,
+          validator: (value) {
+            return Validator.validateEmail(value ?? "");
+          },
+          decoration: InputDecoration(
+            prefixIcon: Padding(
+              padding: const EdgeInsets.only(right: 8.0, left: 1),
+              child: SizedBox(
+                width: 50,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xfff2f2f2),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.grey.withOpacity(0.8),
+                          offset: const Offset(2, 0),
+                          spreadRadius: 0),
+                    ],
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(3),
+                      topLeft: Radius.circular(3),
+                    ),
                   ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(3),
-                      bottomRight: Radius.circular(3),
+                  child: const Center(
+                    child: Icon(
+                      Icons.email,
+                      color: Colors.black,
+                      size: 24,
                     ),
                   ),
                 ),
               ),
             ),
-          )
-        ],
+            fillColor: Colors.white,
+            hintText: "Email",
+            isDense: true,
+            enabledBorder: const OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.transparent, width: 0),
+            ),
+            border: const OutlineInputBorder(
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(3),
+                bottomRight: Radius.circular(3),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -367,73 +366,71 @@ class _DecoratedPasswordTextFieldState
         ),
         borderRadius: BorderRadius.circular(3),
       ),
-      child: Row(
-        children: [
-          Container(
-            height: 49,
-            decoration: BoxDecoration(
-              color: const Color(0xfff2f2f2),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.grey.withOpacity(0.8),
-                    offset: const Offset(2, 0),
-                    spreadRadius: 0),
-              ],
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(3),
-                topLeft: Radius.circular(3),
-              ),
-            ),
-            child: const Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Center(
-                child: Icon(Icons.lock),
-              ),
-            ),
-          ),
-          Flexible(
-            child: SizedOverflowBox(
-              size: const Size.fromHeight(48),
-              alignment: Alignment.topCenter,
-              child: TextFormField(
-                obscureText: !_showPassword,
-                onChanged: (text) => authDataStorage.password = text,
-                validator: (value) {
-                  return Validator.validatePassword(value ?? "");
-                },
-                decoration: InputDecoration(
-                  suffixIcon: GestureDetector(
-                    onTap: () => setState(() {
-                      _showPassword = !_showPassword;
-                    }),
-                    behavior: HitTestBehavior.translucent,
-                    child: AbsorbPointer(
-                      child: Container(
-                        child: Icon(
-                          _showPassword
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                          color: Colors.black,
-                        ),
-                      ),
+      child: SizedOverflowBox(
+        size: const Size.fromHeight(42),
+        alignment: Alignment.topCenter,
+        child: TextFormField(
+          obscureText: !_showPassword,
+          onChanged: (text) => authDataStorage.password = text,
+          validator: (value) {
+            return Validator.validatePassword(value ?? "");
+          },
+          decoration: InputDecoration(
+            prefixIcon: Padding(
+              padding: const EdgeInsets.only(right: 8.0, left: 1),
+              child: SizedBox(
+                width: 50,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xfff2f2f2),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.grey.withOpacity(0.8),
+                          offset: const Offset(2, 0),
+                          spreadRadius: 0),
+                    ],
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(3),
+                      topLeft: Radius.circular(3),
                     ),
                   ),
-                  hintText: "Password",
-                  isDense: true,
-                  enabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent, width: 0),
-                  ),
-                  border: const OutlineInputBorder(
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(3),
-                      bottomRight: Radius.circular(3),
+                  child: const Center(
+                    child: Icon(
+                      Icons.lock,
+                      color: Colors.black,
+                      size: 24,
                     ),
                   ),
                 ),
               ),
             ),
+            suffixIcon: GestureDetector(
+              onTap: () => setState(() {
+                _showPassword = !_showPassword;
+              }),
+              behavior: HitTestBehavior.translucent,
+              child: AbsorbPointer(
+                child: Container(
+                  child: Icon(
+                    _showPassword ? Icons.visibility_off : Icons.visibility,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ),
+            hintText: "Password",
+            isDense: true,
+            enabledBorder: const OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.transparent, width: 0),
+            ),
+            border: const OutlineInputBorder(
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(3),
+                bottomRight: Radius.circular(3),
+              ),
+            ),
           ),
-        ],
+        ),
       ),
     );
   }
@@ -459,7 +456,7 @@ class _Header extends StatelessWidget {
             child: SizedBox(
               width: size.width,
               child: Align(
-                alignment:  Alignment.centerRight,
+                alignment: Alignment.centerRight,
                 child: SizedBox(
                   width: 200,
                   height: 100,

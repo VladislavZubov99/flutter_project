@@ -6,7 +6,6 @@ import 'package:project/ui/widgets/auth/login_widget.dart';
 import 'package:project/ui/widgets/loader_widget/loader_view_cubit.dart';
 import 'package:project/ui/screens/home.dart';
 import 'package:project/ui/widgets/loader_widget/loader_widget.dart';
-import 'package:provider/provider.dart';
 
 import '../blocs/auth/auth_bloc.dart';
 
@@ -33,10 +32,10 @@ class ScreenFactory {
   }
 
   Widget makeMainScreen() {
-    Future.microtask(() {
+    // Future.microtask(() {
       _authBloc?.close();
       _authBloc = null;
-    });
+    // });
 
     return const HomeScreen();
   }
