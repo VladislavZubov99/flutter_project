@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:project/core/api_client.dart';
 import 'package:project/ui/navigation/main_navigation.dart';
 import 'package:project/ui/screens/home.dart';
@@ -454,6 +455,17 @@ class _Header extends StatelessWidget {
             width: size.width,
             decoration: const BoxDecoration(
               color: Color(0xff1e988a),
+            ),
+            child: SizedBox(
+              width: size.width,
+              child: Align(
+                alignment:  Alignment.centerRight,
+                child: SizedBox(
+                  width: 200,
+                  height: 100,
+                  child: SvgPicture.asset('assets/saphir_logo.svg'),
+                ),
+              ),
             ),
           ),
         ));
