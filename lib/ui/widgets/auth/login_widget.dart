@@ -154,7 +154,7 @@ class _LoginScreen extends State<_LoginWidget> {
                                 child: Column(
                                   children: [
                                     const _DecoratedEmailTextField(),
-                                    SizedBox(height: size.height * 0.07),
+                                    SizedBox(height: size.height * 0.03),
                                     _DecoratedPasswordTextField(),
                                   ],
                                 ),

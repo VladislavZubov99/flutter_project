@@ -7,8 +7,8 @@ import 'package:project/domain/data_providers/session_data_provider.dart';
 class ApiClient {
   final _sessionDataProvider = SessionDataProvider();
   final _dio = Dio();
-  // static const _host = 'https://8dd0-95-174-105-30.ngrok.io/api';
-  static const _host = 'http://localhost:8080/api';
+  static const _host = 'https://d9a5-95-174-105-30.ngrok.io/api';
+  // static const _host = 'http://localhost:8080/api';
 
   Future<String> makeAccessToken(
       {required String login, required String password}) async {

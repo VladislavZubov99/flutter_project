@@ -67,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: size.height,
                   decoration: const BoxDecoration(
                       image: DecorationImage(
-                    image: AssetImage('background_wave.png'),
+                    image: AssetImage('assets/background_wave.png'),
                     fit: BoxFit.cover,
                   )),
                   child: SingleChildScrollView(
