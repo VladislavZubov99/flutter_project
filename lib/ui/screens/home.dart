@@ -33,54 +33,56 @@ class _HomeScreenState extends State<HomeScreen> {
     var size = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: Colors.white,
-        body: SizedBox(
-            width: size.width,
-            height: size.height,
-            child: Container(
-              // FutureBuilder<Map<String, dynamic>>(
-              //   future: getUserData(),
-              //   builder: (context, snapshot) {
-              //     if (snapshot.hasData) {
-              //       if (snapshot.connectionState == ConnectionState.waiting) {
-              //         return Container(
-              //           height: size.height,
-              //           width: size.width,
-              //           color: Colors.blueGrey,
-              //           child: const Center(
-              //             child: CircularProgressIndicator(),
-              //           ),
-              //         );
-              //       }
-              //
-              //       String fullName = 'Johny Depp';
-              //
-              //       if (snapshot.data!['name'] != null ||
-              //           snapshot.data!['surname'] != null) {
-              //         fullName =
-              //             '${snapshot.data!['name']} ${snapshot.data!['surname']}';
-              //       }
-              //       String firstName = snapshot.data!['name'] ?? 'Johny';
-              //       String lastName = snapshot.data!['surname'] ?? 'Depp';
-              //       String email = snapshot.data!['email'];
-
+        body: SafeArea(
+          child: SizedBox(
               width: size.width,
               height: size.height,
-              decoration: const BoxDecoration(
-                  image: DecorationImage(
-                image: AssetImage('assets/background_wave.png'),
-                fit: BoxFit.cover,
+              child: Container(
+                // FutureBuilder<Map<String, dynamic>>(
+                //   future: getUserData(),
+                //   builder: (context, snapshot) {
+                //     if (snapshot.hasData) {
+                //       if (snapshot.connectionState == ConnectionState.waiting) {
+                //         return Container(
+                //           height: size.height,
+                //           width: size.width,
+                //           color: Colors.blueGrey,
+                //           child: const Center(
+                //             child: CircularProgressIndicator(),
+                //           ),
+                //         );
+                //       }
+                //
+                //       String fullName = 'Johny Depp';
+                //
+                //       if (snapshot.data!['name'] != null ||
+                //           snapshot.data!['surname'] != null) {
+                //         fullName =
+                //             '${snapshot.data!['name']} ${snapshot.data!['surname']}';
+                //       }
+                //       String firstName = snapshot.data!['name'] ?? 'Johny';
+                //       String lastName = snapshot.data!['surname'] ?? 'Depp';
+                //       String email = snapshot.data!['email'];
+
+                width: size.width,
+                height: size.height,
+                decoration: const BoxDecoration(
+                    image: DecorationImage(
+                  image: AssetImage('assets/background_wave.png'),
+                  fit: BoxFit.cover,
+                )),
+                child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const _HeaderName(),
+                        _LogoutRow(),
+                      ],
+                    )),
               )),
-              child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const _HeaderName(),
-                      _LogoutRow(),
-                    ],
-                  )),
-            )));
+        ));
   }
 }
 

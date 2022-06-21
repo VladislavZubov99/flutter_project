@@ -155,7 +155,7 @@ class _LoginScreen extends State<_LoginWidget> {
                                 child: Column(
                                   children: [
                                     const _DecoratedEmailTextField(),
-                                    SizedBox(height: size.height * 0.03),
+                                    SizedBox(height: size.height * 0.04),
                                     _DecoratedPasswordTextField(),
                                   ],
                                 ),
@@ -290,7 +290,7 @@ class _DecoratedEmailTextField extends StatelessWidget {
         borderRadius: BorderRadius.circular(3),
       ),
       child: SizedOverflowBox(
-        size: const Size.fromHeight(42),
+        size: const Size.fromHeight(50),
         alignment: Alignment.topCenter,
         child: TextFormField(
           onChanged: (text) => authDataStorage.login = text,
@@ -367,7 +367,7 @@ class _DecoratedPasswordTextFieldState
         borderRadius: BorderRadius.circular(3),
       ),
       child: SizedOverflowBox(
-        size: const Size.fromHeight(42),
+        size: const Size.fromHeight(50),
         alignment: Alignment.topCenter,
         child: TextFormField(
           obscureText: !_showPassword,
@@ -448,19 +448,21 @@ class _Header extends StatelessWidget {
         height: 100,
         child: Align(
           alignment: Alignment.topCenter,
-          child: Container(
-            width: size.width,
-            decoration: const BoxDecoration(
-              color: Color(0xff1e988a),
-            ),
-            child: SizedBox(
+          child: SafeArea(
+            child: Container(
               width: size.width,
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: SizedBox(
-                  width: 200,
-                  height: 100,
-                  child: SvgPicture.asset('assets/saphir_logo.svg'),
+              decoration: const BoxDecoration(
+                color: Color(0xff1e988a),
+              ),
+              child: SizedBox(
+                width: size.width,
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: SizedBox(
+                    width: 200,
+                    height: 100,
+                    child: SvgPicture.asset('assets/saphir_logo.svg'),
+                  ),
                 ),
               ),
             ),
