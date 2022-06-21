@@ -15,10 +15,10 @@ class ApiClient {
     try {
 
       return Future.delayed(const Duration(milliseconds: 2000), () {
-       if(login == 'admin@test.it' && password == 'admin@test.it') {
+       if(login == 'admin@test.it' && password == '123456') {
          return 'logged';
        } else {
-         throw ApiClientException(ApiClientExceptionType.network);
+         throw ApiClientException(ApiClientExceptionType.auth);
        }
       });
 
@@ -126,5 +126,5 @@ class ApiClientException implements Exception {
   final ApiClientExceptionType type;
   final String? message;
 
-  ApiClientException(this.type, {this.message = ''});
+  ApiClientException(this.type, {this.message});
 }

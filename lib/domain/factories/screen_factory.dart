@@ -32,6 +32,7 @@ class ScreenFactory {
   }
 
   Widget makeMainScreen() {
+
     // Future.microtask(() {
       _authBloc?.close();
       _authBloc = null;

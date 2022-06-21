@@ -9,7 +9,7 @@ class LoaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<LoaderViewCubit, LoaderViewCubitState>(
-      listenWhen: (prev, current) => current != LoaderViewCubitState.unknown,
+      listenWhen: (prev, current) => current != LoaderViewCubitState.unknown && prev != current,
       listener: _onStateChange,
       child: const Scaffold(
           body: Center(

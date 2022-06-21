@@ -65,7 +65,6 @@ class AuthBloc extends Bloc<AuthEvents, AuthState> {
 
   FutureOr<void> _onCheckStatus(
       AuthCheckStatusEvent event, Emitter<AuthState> emit) async {
-    emit(AuthInProgressState());
     final sessionId = await _sessionDataProvider.getAccessToken();
     final newState =
         sessionId != null ? AuthAuthorizedState() : AuthUnauthorizedState();

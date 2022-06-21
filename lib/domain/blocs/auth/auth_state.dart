@@ -1,25 +1,17 @@
+import 'package:equatable/equatable.dart';
+
 enum AuthStateStatus { authorized, notAuthorized, inProgress }
 
-abstract class AuthState {}
+abstract class AuthState extends Equatable{}
 
 class AuthUnauthorizedState extends AuthState {
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is AuthUnauthorizedState && runtimeType == other.runtimeType;
-
-  @override
-  int get hashCode => 0;
+  List<Object> get props => [];
 }
 
 class AuthAuthorizedState extends AuthState {
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is AuthAuthorizedState && runtimeType == other.runtimeType;
-
-  @override
-  int get hashCode => 0;
+  List<Object> get props => [];
 }
 
 class AuthFailedState extends AuthState {
@@ -28,33 +20,16 @@ class AuthFailedState extends AuthState {
   AuthFailedState(this.error);
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is AuthFailedState &&
-          runtimeType == other.runtimeType &&
-          error == other.error;
-
-  @override
-  int get hashCode => error.hashCode;
+  List<Object> get props => [error];
 }
 
 class AuthInProgressState extends AuthState {
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is AuthInProgressState && runtimeType == other.runtimeType;
-
-  @override
-  int get hashCode => 0;
+  List<Object> get props => [];
 }
 
 class AuthCheckStatusInProgressState extends AuthState {
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is AuthCheckStatusInProgressState && runtimeType == other.runtimeType;
-
-  @override
-  int get hashCode => 0;
+  List<Object> get props => [];
 }
 

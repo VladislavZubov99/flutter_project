@@ -5,7 +5,7 @@ import 'package:project/ui/screens/home.dart';
 import 'package:project/ui/screens/register.dart';
 
 abstract class MainNavigationRouteNames {
-  static const loaderWidget = '/';
+  static const loaderWidget = '/loader_widget';
   static const auth = '/auth';
   static const register = '/register';
   static const mainScreen = '/main_screen';
@@ -35,8 +35,8 @@ class MainNavigation {
     }
   }
 
-  static void resetNavigation(BuildContext context) {
-    Navigator.of(context).pushNamedAndRemoveUntil(
+  static void resetNavigation(NavigatorState state) {
+    state.pushNamedAndRemoveUntil(
       MainNavigationRouteNames.loaderWidget,
       (route) => false,
     );

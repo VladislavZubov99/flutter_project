@@ -188,8 +188,9 @@ class _LogoutRow extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () async {
+                  NavigatorState state = Navigator.of(context);
                   await _sessionDataProvider.deleteAccessToken();
-                  MainNavigation.resetNavigation(context);
+                  MainNavigation.resetNavigation(state);
                 },
                 child: Text(
                   'Logout',
@@ -314,8 +315,9 @@ class _OldHomeWidget extends StatelessWidget {
           const SizedBox(height: 60),
           TextButton(
             onPressed: () async {
+              NavigatorState state = Navigator.of(context);
               await _sessionDataProvider.deleteAccessToken();
-              MainNavigation.resetNavigation(context);
+              MainNavigation.resetNavigation(state);
             },
             style: TextButton.styleFrom(
                 backgroundColor: Colors.redAccent.shade700,

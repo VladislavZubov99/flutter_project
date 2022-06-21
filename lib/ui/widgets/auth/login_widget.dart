@@ -22,14 +22,28 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<AuthViewCubit, AuthViewCubitState>(
       listener: _onStateChange,
-      listenWhen: (_, current) => current is AuthViewCubitAuthSuccessState,
       child: Provider<_AuthDataStorage>(
           create: (_) => _AuthDataStorage(), child: const _LoginWidget()),
     );
   }
 
   void _onStateChange(BuildContext context, AuthViewCubitState state) {
-    MainNavigation.resetNavigation(context);
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
+    if (state is AuthViewCubitAuthSuccessState) {
+      MainNavigation.resetNavigation(Navigator.of(context));
+    } else if (state is AuthViewCubitAuthErrorState) {
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      //   content: Text(state.errorMessage),
+      //   backgroundColor: Colors.red.shade300,
+      // ));
+    }
+    if (state is AuthViewCubitAuthProgressState) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: const Text('Processing Data'),
+        backgroundColor: Colors.green.shade300,
+      ));
+    }
   }
 }
 
@@ -42,38 +56,6 @@ class _LoginWidget extends StatefulWidget {
 
 class _LoginScreen extends State<_LoginWidget> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  // final ApiClient _apiClient = ApiClient();
-
-  //
-  // Future<void> login() async {
-  //   if (_formKey.currentState!.validate()) {
-  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-  //       content: const Text('Processing Data'),
-  //       backgroundColor: Colors.green.shade300,
-  //     ));
-  //
-  //     String res = await _apiClient.makeAccessToken(
-  //       login: emailController.text,
-  //       password: passwordController.text,
-  //     );
-  //
-  //     if (!mounted) return;
-  //     ScaffoldMessenger.of(context).hideCurrentSnackBar();
-  //
-  //     unawaited(Navigator.of(context)
-  //         .pushReplacementNamed(MainNavigationRouteNames.mainScreen));
-  //     // if (res['message'] == null) {
-  //     //   String accessToken = res['token'] as String;
-  //     //
-  //     // } else {
-  //     //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-  //     //     content: Text('Error: ${res['message']}'),
-  //     //     backgroundColor: Colors.red.shade300,
-  //     //   ));
-  //     // }
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -217,23 +199,8 @@ class _AuthButtonWidget extends StatelessWidget {
             authViewCubit.state is AuthViewCubitAuthErrorState;
     Future<void> login() async {
       if (formKey.currentState!.validate()) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: const Text('Processing Data'),
-          backgroundColor: Colors.green.shade300,
-        ));
-
         authViewCubit.auth(
             login: authDataStorage.login, password: authDataStorage.password);
-        ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        // if (res['message'] == null) {
-        //   String accessToken = res['token'] as String;
-        //
-        // } else {
-        //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        //     content: Text('Error: ${res['message']}'),
-        //     backgroundColor: Colors.red.shade300,
-        //   ));
-        // }
       }
     }
 
@@ -271,6 +238,7 @@ class _DecoratedEmailTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authDataStorage = context.read<_AuthDataStorage>();
+    final authViewCubit = context.watch<AuthViewCubit>();
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
@@ -289,6 +257,10 @@ class _DecoratedEmailTextField extends StatelessWidget {
             return Validator.validateEmail(value ?? "");
           },
           decoration: InputDecoration(
+            errorText: authViewCubit.state is AuthViewCubitAuthErrorState
+                ? (authViewCubit.state as AuthViewCubitAuthErrorState)
+                    .errorMessage
+                : null,
             prefixIcon: Padding(
               padding: const EdgeInsets.only(right: 8.0, left: 1),
               child: SizedBox(
@@ -348,6 +320,8 @@ class _DecoratedPasswordTextFieldState
   @override
   Widget build(BuildContext context) {
     final authDataStorage = context.read<_AuthDataStorage>();
+    final authViewCubit = context.watch<AuthViewCubit>();
+
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
@@ -367,6 +341,10 @@ class _DecoratedPasswordTextFieldState
             return Validator.validatePassword(value ?? "");
           },
           decoration: InputDecoration(
+            errorText: authViewCubit.state is AuthViewCubitAuthErrorState
+                ? (authViewCubit.state as AuthViewCubitAuthErrorState)
+                    .errorMessage
+                : null,
             prefixIcon: Padding(
               padding: const EdgeInsets.only(right: 8.0, left: 1),
               child: SizedBox(
