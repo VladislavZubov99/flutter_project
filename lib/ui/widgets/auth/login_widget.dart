@@ -96,7 +96,7 @@ class _LoginScreen extends State<_LoginWidget> {
               child: Stack(children: [
                 SizedBox(
                   width: size.width,
-                  height: size.height - 140,
+                  height: size.height - 240,
                   child: Align(
                     alignment: Alignment.center,
                     child: Container(
@@ -119,10 +119,10 @@ class _LoginScreen extends State<_LoginWidget> {
                             children: <Widget>[
                               // SizedBox(height: size.height * 0.08),
                               SizedBox(
-                                height: 100,
+                                height: 70,
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 20),
+                                      horizontal: 20, vertical: 5),
                                   decoration: BoxDecoration(
                                     color: const Color(0xfff2f2f2),
                                     boxShadow: [
@@ -151,7 +151,7 @@ class _LoginScreen extends State<_LoginWidget> {
                               Container(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: size.width * 0.04,
-                                    vertical: 40),
+                                    vertical: size.height * 0.04),
                                 child: Column(
                                   children: [
                                     const _DecoratedEmailTextField(),
@@ -161,10 +161,10 @@ class _LoginScreen extends State<_LoginWidget> {
                                 ),
                               ),
                               SizedBox(
-                                height: 100,
+                                height: 70,
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 20),
+                                      horizontal: 20, vertical: 5),
                                   decoration: BoxDecoration(
                                       color: const Color(0xfff2f2f2),
                                       boxShadow: [
@@ -180,7 +180,7 @@ class _LoginScreen extends State<_LoginWidget> {
                                       border: Border.all(
                                           color: Colors.transparent)),
                                   child: Align(
-                                      alignment: Alignment.bottomLeft,
+                                      alignment: Alignment.centerLeft,
                                       child:
                                           _AuthButtonWidget(formKey: _formKey)),
                                 ),
@@ -253,23 +253,14 @@ class _AuthButtonWidget extends StatelessWidget {
             ),
           );
 
-    return Row(
-      children: [
-        SizedBox(
-          height: 80,
-          width: 150,
-          child: ElevatedButton(
-            onPressed: onPressed,
-            style: ElevatedButton.styleFrom(
-                primary: const Color(0xffdddddd),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(3)),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 40, vertical: 15)),
-            child: child,
-          ),
-        ),
-      ],
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        primary: const Color(0xffdddddd),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
+        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 5),
+      ),
+      child: child,
     );
   }
 }
@@ -445,7 +436,7 @@ class _Header extends StatelessWidget {
 
     return SizedBox(
         width: size.width,
-        height: 100,
+        height: 200,
         child: Align(
           alignment: Alignment.topCenter,
           child: SafeArea(
@@ -460,7 +451,7 @@ class _Header extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: SizedBox(
                     width: 200,
-                    height: 100,
+                    height: 140,
                     child: SvgPicture.asset('assets/saphir_logo.svg'),
                   ),
                 ),

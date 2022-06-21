@@ -38,50 +38,47 @@ class _HomeScreenState extends State<HomeScreen> {
               width: size.width,
               height: size.height,
               child: Container(
-                // FutureBuilder<Map<String, dynamic>>(
-                //   future: getUserData(),
-                //   builder: (context, snapshot) {
-                //     if (snapshot.hasData) {
-                //       if (snapshot.connectionState == ConnectionState.waiting) {
-                //         return Container(
-                //           height: size.height,
-                //           width: size.width,
-                //           color: Colors.blueGrey,
-                //           child: const Center(
-                //             child: CircularProgressIndicator(),
-                //           ),
-                //         );
-                //       }
-                //
-                //       String fullName = 'Johny Depp';
-                //
-                //       if (snapshot.data!['name'] != null ||
-                //           snapshot.data!['surname'] != null) {
-                //         fullName =
-                //             '${snapshot.data!['name']} ${snapshot.data!['surname']}';
-                //       }
-                //       String firstName = snapshot.data!['name'] ?? 'Johny';
-                //       String lastName = snapshot.data!['surname'] ?? 'Depp';
-                //       String email = snapshot.data!['email'];
+                  // FutureBuilder<Map<String, dynamic>>(
+                  //   future: getUserData(),
+                  //   builder: (context, snapshot) {
+                  //     if (snapshot.hasData) {
+                  //       if (snapshot.connectionState == ConnectionState.waiting) {
+                  //         return Container(
+                  //           height: size.height,
+                  //           width: size.width,
+                  //           color: Colors.blueGrey,
+                  //           child: const Center(
+                  //             child: CircularProgressIndicator(),
+                  //           ),
+                  //         );
+                  //       }
+                  //
+                  //       String fullName = 'Johny Depp';
+                  //
+                  //       if (snapshot.data!['name'] != null ||
+                  //           snapshot.data!['surname'] != null) {
+                  //         fullName =
+                  //             '${snapshot.data!['name']} ${snapshot.data!['surname']}';
+                  //       }
+                  //       String firstName = snapshot.data!['name'] ?? 'Johny';
+                  //       String lastName = snapshot.data!['surname'] ?? 'Depp';
+                  //       String email = snapshot.data!['email'];
 
-                width: size.width,
-                height: size.height,
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                  image: AssetImage('assets/background_wave.png'),
-                  fit: BoxFit.cover,
-                )),
-                child: SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        const _HeaderName(),
-                        _LogoutRow(),
-                      ],
-                    )),
-              )),
+                  width: size.width,
+                  height: size.height,
+                  decoration: const BoxDecoration(
+                      image: DecorationImage(
+                    image: AssetImage('assets/background_wave.png'),
+                    fit: BoxFit.cover,
+                  )),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const _HeaderName(),
+                      _LogoutRow(),
+                    ],
+                  ))),
         ));
   }
 }
@@ -94,6 +91,7 @@ class _HeaderName extends StatelessWidget {
     var size = MediaQuery.of(context).size;
 
     return SizedBox(
+      height: 140,
       width: size.width,
       child: Align(
         alignment: Alignment.topCenter,
@@ -103,11 +101,10 @@ class _HeaderName extends StatelessWidget {
           decoration: const BoxDecoration(
             color: Color(0xff1e988a),
           ),
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 5),
+          // padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 5),
           child: Row(
             children: [
               Container(
-                height: 120,
                 decoration: const BoxDecoration(
                   color: Colors.transparent,
                 ),
