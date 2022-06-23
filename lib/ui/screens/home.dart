@@ -1,10 +1,12 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project/core/api_client.dart';
+import 'package:project/domain/data_providers/session_data_provider.dart';
 import 'package:project/ui/navigation/main_navigation.dart';
 import 'package:project/ui/widgets/auth/login_widget.dart';
 
-import '../../domain/data_providers/session_data_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -15,7 +17,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final ApiClient _apiClient = ApiClient();
-  final SessionDataProvider _sessionDataProvider = SessionDataProvider();
 
   Future<Map<String, dynamic>> getUserData() async {
     dynamic userRes;
@@ -32,305 +33,168 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
+        drawer: const NavigationDrawer(),
         backgroundColor: Colors.white,
+        appBar: AppBar(
+          // automaticallyImplyLeading: false,
+          backgroundColor: const Color(0xff1e988a),
+          title: const Text('Home page'),
+        ),
         body: SafeArea(
           child: SizedBox(
               width: size.width,
               height: size.height,
               child: Container(
-                  // FutureBuilder<Map<String, dynamic>>(
-                  //   future: getUserData(),
-                  //   builder: (context, snapshot) {
-                  //     if (snapshot.hasData) {
-                  //       if (snapshot.connectionState == ConnectionState.waiting) {
-                  //         return Container(
-                  //           height: size.height,
-                  //           width: size.width,
-                  //           color: Colors.blueGrey,
-                  //           child: const Center(
-                  //             child: CircularProgressIndicator(),
-                  //           ),
-                  //         );
-                  //       }
-                  //
-                  //       String fullName = 'Johny Depp';
-                  //
-                  //       if (snapshot.data!['name'] != null ||
-                  //           snapshot.data!['surname'] != null) {
-                  //         fullName =
-                  //             '${snapshot.data!['name']} ${snapshot.data!['surname']}';
-                  //       }
-                  //       String firstName = snapshot.data!['name'] ?? 'Johny';
-                  //       String lastName = snapshot.data!['surname'] ?? 'Depp';
-                  //       String email = snapshot.data!['email'];
-
-                  width: size.width,
-                  height: size.height,
-                  decoration: const BoxDecoration(
-                      image: DecorationImage(
-                    image: AssetImage('assets/background_wave.png'),
-                    fit: BoxFit.cover,
-                  )),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const _HeaderName(),
-                      _LogoutRow(),
-                    ],
-                  ))),
+                width: size.width,
+                height: size.height,
+                decoration: const BoxDecoration(
+                    image: DecorationImage(
+                  image: AssetImage('assets/background_wave.png'),
+                  fit: BoxFit.cover,
+                )),
+              )),
         ));
   }
 }
 
-class _HeaderName extends StatelessWidget {
-  const _HeaderName({Key? key}) : super(key: key);
+class NavigationDrawer extends StatelessWidget {
+  const NavigationDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-
-    return SizedBox(
-      height: 140,
-      width: size.width,
-      child: Align(
-        alignment: Alignment.topCenter,
-        child: Container(
-          width: size.width,
-          height: 140,
-          decoration: const BoxDecoration(
-            color: Color(0xff1e988a),
-          ),
-          // padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 5),
-          child: Row(
-            children: [
-              Container(
-                decoration: const BoxDecoration(
-                  color: Colors.transparent,
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Center(
-                    child: Icon(
-                      Icons.person_outlined,
-                      size: 80.0,
-                    ),
-                  ),
-                ),
-              ),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text('Max Ryt',
-                      style: TextStyle(
-                          fontSize: 24,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold)),
-                  SizedBox(height: 7),
-                  Text('mrytwinski@saphir-software.de',
-                      style: TextStyle(fontSize: 19, color: Colors.white)),
-                ],
-              ),
-            ],
-          ),
+    return Drawer(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topRight: Radius.circular(20), bottomRight: Radius.circular(20)),
+      ),
+      child: SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Align(
+              alignment: Alignment.topLeft,
+              child: buildHeader(context),
+            ),
+            Expanded(child: buildMenuItems(context))
+          ],
         ),
       ),
     );
   }
-}
 
-class _LogoutRow extends StatelessWidget {
-  final SessionDataProvider _sessionDataProvider = SessionDataProvider();
-
-  @override
-  Widget build(BuildContext context) {
+  Widget buildHeader(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
-    return SizedBox(
-      width: size.width,
-      child: Align(
-        alignment: Alignment.topCenter,
-        child: Container(
-          width: size.width,
-          height: 140,
-          decoration: const BoxDecoration(color: Colors.white, boxShadow: [
+    return ListTile(
+      leading: Container(
+        width: size.width * 0.1,
+        height: size.width * 0.1,
+        padding: const EdgeInsets.all(10),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
             BoxShadow(
-                color: Colors.grey,
-                blurRadius: 20,
-                offset: Offset(0, 0),
-                blurStyle: BlurStyle.normal)
-          ]),
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-          child: Row(
-            children: [
-              Container(
-                height: 120,
-                decoration: const BoxDecoration(
-                  color: Colors.transparent,
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.only(
-                    top: 10.0,
-                    right: 15.0,
-                    left: 10.0,
-                    bottom: 10.0,
-                  ),
-                  child: Center(
-                    child: Icon(
-                      Icons.power_settings_new,
-                      size: 40.0,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ),
-              ),
-              TextButton(
-                onPressed: () async {
-                  NavigatorState state = Navigator.of(context);
-                  await _sessionDataProvider.deleteAccessToken();
-                  MainNavigation.resetNavigation(state);
-                },
-                child: Text(
-                  'Logout',
-                  style:
-                      GoogleFonts.robotoMono(color: Colors.blue, fontSize: 24),
-                ),
-              ),
-            ],
-          ),
+                color: Color(0xff1e988a), offset: Offset(0, 0), blurRadius: 4)
+          ],
+          borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
+        child: Align(
+          alignment: Alignment.centerRight,
+          child: SvgPicture.asset('assets/saphir_diamond_logo.svg'),
+        ),
+      ),
+      title: Text(
+        'Saphir Software',
+        style: GoogleFonts.robotoMono(
+            color: const Color(0xff1e988a), fontSize: 20),
       ),
     );
   }
-}
 
-class _OldHomeWidget extends StatelessWidget {
-  final SessionDataProvider _sessionDataProvider = SessionDataProvider();
-
-  @override
-  Widget build(BuildContext context) {
+  Widget buildMenuItems(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    final SessionDataProvider sessionDataProvider = SessionDataProvider();
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Align(
-            alignment: Alignment.topCenter,
-            child: Container(
-              padding: const EdgeInsets.all(5),
-              clipBehavior: Clip.hardEdge,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.transparent,
-                border: Border.all(width: 1, color: Colors.blue.shade100),
-              ),
-              child: Container(
-                height: 100,
-                width: 100,
-                clipBehavior: Clip.hardEdge,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                ),
-                child: const Image(
-                    image: AssetImage('assets/image.png'), fit: BoxFit.cover),
+    return Column(
+      children: [
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: size.width * 0.02),
+          child: ListTile(
+            leading: const Icon(Icons.home_outlined),
+            title: Text(
+              'Home',
+              style: GoogleFonts.roboto(
+                fontSize: 16,
               ),
             ),
+            onTap: () {
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                  MainNavigationRouteNames.mainScreen, (route) => false);
+            },
           ),
-          const SizedBox(height: 10),
-          const Align(
-            alignment: Alignment.topCenter,
-            child: Text(
-              'Johny Depp',
-              style: TextStyle(
-                  fontSize: 25,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold),
+        ),
+        const Divider(height: 4),
+        Expanded(child: Container()),
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: size.width * 0.02),
+          child: ListTile(
+            leading: const Icon(
+              Icons.power_settings_new,
             ),
-          ),
-          const SizedBox(height: 10),
-          const Align(
-            alignment: Alignment.topCenter,
-            child: Text(
-              '123@test.ru',
-              style: TextStyle(fontSize: 18, color: Colors.black),
+            title: Text(
+              'Logout',
+              style: GoogleFonts.roboto(
+                fontSize: 16,
+              ),
             ),
-          ),
-          const SizedBox(height: 20),
-          Container(
-            width: size.width,
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-            decoration: BoxDecoration(
-                color: Colors.white54, borderRadius: BorderRadius.circular(5)),
-            child: const Text('PROFILE DETAILS',
-                style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w700)),
-          ),
-          const SizedBox(height: 20),
-          Container(
-            width: size.width,
-            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-            decoration: BoxDecoration(
-                color: const Color(0xFF48484A),
-                borderRadius: BorderRadius.circular(5)),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text('First Name:',
-                    style: TextStyle(fontSize: 16, color: Colors.white38)),
-                SizedBox(height: 7),
-                Text('johny',
-                    style: TextStyle(fontSize: 19, color: Colors.white)),
-              ],
-            ),
-          ),
-          const SizedBox(height: 20),
-          Container(
-            width: size.width,
-            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-            decoration: BoxDecoration(
-                color: const Color(0xFF48484A),
-                borderRadius: BorderRadius.circular(5)),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text('Last Name:',
-                    style: TextStyle(fontSize: 16, color: Colors.white38)),
-                SizedBox(height: 7),
-                Text('Depp',
-                    style: TextStyle(fontSize: 19, color: Colors.white)),
-              ],
-            ),
-          ),
-          const SizedBox(height: 60),
-          TextButton(
-            onPressed: () async {
+            onTap: () async {
               NavigatorState state = Navigator.of(context);
-              await _sessionDataProvider.deleteAccessToken();
+              await sessionDataProvider.deleteAccessToken();
               MainNavigation.resetNavigation(state);
             },
-            style: TextButton.styleFrom(
-                backgroundColor: Colors.redAccent.shade700,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5)),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 25)),
-            child: const Text(
-              'Logout',
-              style: TextStyle(color: Colors.white),
-            ),
           ),
-        ],
+        ),
+        const _UserProfile(),
+      ],
+    );
+  }
+}
+
+class _UserProfile extends StatelessWidget {
+  const _UserProfile({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 0),
+      decoration: const BoxDecoration(
+        color: Color(0xff1e988a),
+        borderRadius: BorderRadius.only(bottomRight: Radius.circular(20)),
+      ),
+      child: ListTile(
+        leading: const Icon(
+          Icons.person_outlined,
+          size: 40.0,
+        ),
+        title: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Max Ryt',
+              style: GoogleFonts.roboto(
+                  fontSize: 16,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 7),
+            Text(
+              'mrytwinski@saphir-software.de',
+              style: GoogleFonts.roboto(fontSize: 13, color: Colors.white),
+            ),
+          ],
+        ),
       ),
     );
   }
