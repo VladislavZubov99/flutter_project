@@ -12,8 +12,9 @@ class JsonDataProvider {
 
   Future<List<Tenant>> getTenantFromJson() async {
     try {
-      String jsonStr = await getJson('json_tenant_list.json');
+      String jsonStr = await getJson('assets/json_tenant_list.json');
       final List<dynamic> myData = json.decode(jsonStr);
+      await Future.delayed(const Duration(seconds: 1));
       return myData.map((e) => Tenant.fromJson(e)).toList();
     } catch (e) {
       print(e);
@@ -23,7 +24,7 @@ class JsonDataProvider {
 
   Future<Combinations> getCombinationsFromJson() async {
     try {
-      String jsonStr = await getJson('json_items.json');
+      String jsonStr = await getJson('assets/json_items.json');
       final dynamic myData = json.decode(jsonStr);
       return Combinations.fromJson(myData);
     } catch (e) {

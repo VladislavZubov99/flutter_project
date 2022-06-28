@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:project/ui/navigation/main_navigation.dart';
-import 'package:project/ui/widgets/auth/login_view_cubit.dart';
+import 'package:project/ui/widgets/screens/auth/login_view_cubit.dart';
 import 'package:project/utils/validator.dart';
 import 'package:provider/provider.dart';
 

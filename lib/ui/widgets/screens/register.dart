@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:project/core/api_client.dart';
 import 'package:project/ui/navigation/main_navigation.dart';
-import 'package:project/ui/widgets/auth/login_widget.dart';
+import 'package:project/ui/widgets/screens/auth/login_widget.dart';
 import 'package:project/utils/validator.dart';
 
 class RegisterScreen extends StatefulWidget {

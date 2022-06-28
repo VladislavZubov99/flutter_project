@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:project/domain/factories/screen_factory.dart';
-import 'package:project/ui/widgets/auth/login_widget.dart';
-import 'package:project/ui/screens/home.dart';
-import 'package:project/ui/screens/register.dart';
+import 'package:project/ui/widgets/screens/auth/login_widget.dart';
+import 'package:project/ui/widgets/screens/home.dart';
+import 'package:project/ui/widgets/screens/register.dart';
 
 abstract class MainNavigationRouteNames {
   static const loaderWidget = '/loader_widget';
   static const auth = '/auth';
   static const register = '/register';
   static const mainScreen = '/main_screen';
+  static const modulesScreen = '/main_screen/modules';
+  static const optionsScreen = '/main_screen/modules/options';
+  static const combinationsScreen = '/main_screen/modules/options/combinations';
+
   static const userScreen = '/user_screen';
   static const userDetails = '/user_screen/user_details';
 }
@@ -21,6 +25,12 @@ class MainNavigation {
     MainNavigationRouteNames.auth: (_) => _screenFactory.makeAuth(),
     MainNavigationRouteNames.register: (context) => const RegisterScreen(),
     MainNavigationRouteNames.mainScreen: (_) => _screenFactory.makeMainScreen(),
+    MainNavigationRouteNames.modulesScreen: (_) =>
+        _screenFactory.makeModulesScreen(),
+    MainNavigationRouteNames.optionsScreen: (_) =>
+        _screenFactory.makeOptionsScreen(),
+    MainNavigationRouteNames.combinationsScreen: (_) =>
+        _screenFactory.makeCombinationsScreen(),
   };
 
   Route<Object> onGenerateRoute(RouteSettings settings) {
