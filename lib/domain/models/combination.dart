@@ -1,4 +1,8 @@
+import 'package:flutter/material.dart';
+import 'package:project/domain/data_providers/json_data_provider.dart';
+
 import 'fromJson.dart';
+
 class Combinations extends FromJson {
   List<Combination>? items;
   int? pageNumber;
@@ -8,10 +12,10 @@ class Combinations extends FromJson {
 
   Combinations(
       {this.items,
-        this.pageNumber,
-        this.pageSize,
-        this.total,
-        this.totalPages});
+      this.pageNumber,
+      this.pageSize,
+      this.total,
+      this.totalPages});
 
   Combinations.fromJson(Map<String, dynamic> json) {
     if (json['items'] != null) {
@@ -38,6 +42,67 @@ class Combinations extends FromJson {
     data['totalPages'] = totalPages;
     return data;
   }
+
+
+}
+
+class CombinationsNotifier extends ChangeNotifier {
+  bool loading = false;
+  Combinations combinations = Combinations();
+  final JsonDataProvider _jsonDataProvider = JsonDataProvider();
+
+  CombinationsNotifier() {
+    fetchNewCombinations();
+  }
+
+  Future<void> fetchNewCombinations({String searchValue = ''}) async {
+    loading = true;
+    notifyListeners();
+
+
+    combinations = await _jsonDataProvider.getCombinationsFromJson();
+
+    if(searchValue.isNotEmpty) {
+      combinations.items = getItemsByName(searchValue);
+      combinations.total = combinations.items != null ? combinations.items!.length : 0;
+
+      if(combinations.pageSize != null &&  combinations.items != null) {
+        combinations.totalPages = (combinations.total! / combinations.pageSize!).round();
+      }
+
+    }
+
+    loading = false;
+    notifyListeners();
+  }
+
+  bool get hasData =>
+      combinations.items != null && combinations.items!.isNotEmpty;
+
+
+  List<Combination> getItemsByName(String searchValue) {
+    final items = combinations.items;
+
+    if (items != null) {
+
+      return items.where((element) {
+        if (element.kdName == null) {
+          return false;
+        } else {
+          if (element.kdName!
+              .toLowerCase()
+              .contains(searchValue.toLowerCase())) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+      }).toList();
+    } else {
+      return <Combination>[];
+    }
+  }
+
 }
 
 class Combination extends FromJson {

@@ -26,6 +26,7 @@ class JsonDataProvider {
     try {
       String jsonStr = await getJson('assets/json_items.json');
       final dynamic myData = json.decode(jsonStr);
+      await Future.delayed(const Duration(seconds: 1));
       return Combinations.fromJson(myData);
     } catch (e) {
       print(e);
