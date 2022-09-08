@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:project/core/api_client.dart';
 import 'package:project/domain/data_providers/json_data_provider.dart';
 import 'package:project/domain/models/combination.dart';
 import 'package:project/domain/models/fromJson.dart';
@@ -134,6 +135,9 @@ class _Search extends StatelessWidget {
                   height: 50,
                   child: ElevatedButton(
                       onPressed: () {
+                        final apiClient = ApiClient();
+                        apiClient.getData();
+
                         Provider.of<CombinationsNotifier>(context,
                                 listen: false)
                             .fetchNewCombinations(

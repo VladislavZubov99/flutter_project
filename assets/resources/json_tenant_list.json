@@ -1,0 +1,19 @@
+[
+  {
+    "id": 1,
+    "number": 2,
+    "name": "Saphir Demo GmbH",
+    "phoneNumber": null,
+    "portalCompanyId": 1,
+    "email": null,
+    "contactPerson": null,
+    "city": null,
+    "street": null,
+    "houseNumber": null,
+    "postcode": null,
+    "index": 0,
+    "color": "#4DACFB",
+    "saphir3Connected": true,
+    "portalTenantLogoDto": null
+  }
+]

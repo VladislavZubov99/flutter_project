@@ -23,6 +23,9 @@ dependencies:
   flutter_svg: ^1.1.0
   equatable: ^2.0.3
   intl: ^0.17.0
+  iconify_flutter: ^0.0.4
+  relative_scale: ^2.0.0
+  spider: ^3.1.0
 
 dev_dependencies:
   flutter_test:
@@ -34,4 +37,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/images/
+    - assets/vectors/
+    - assets/resources/
     - assets/
