@@ -12,6 +12,7 @@ abstract class MainNavigationRouteNames {
   static const modulesScreen = '/main_screen/modules';
   static const optionsScreen = '/main_screen/modules/options';
   static const combinationsScreen = '/main_screen/modules/options/combinations';
+  static const dashboardManagementScreen = '/main_screen/modules/options/dashboard_management';
 
   static const userScreen = '/user_screen';
   static const userDetails = '/user_screen/user_details';
@@ -31,6 +32,8 @@ class MainNavigation {
         _screenFactory.makeOptionsScreen(),
     MainNavigationRouteNames.combinationsScreen: (_) =>
         _screenFactory.makeCombinationsScreen(),
+    MainNavigationRouteNames.dashboardManagementScreen: (_) =>
+        _screenFactory.makeDashboardManagementScreen(),
   };
 
   Route<Object> onGenerateRoute(RouteSettings settings) {

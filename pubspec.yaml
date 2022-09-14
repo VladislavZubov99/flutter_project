@@ -26,6 +26,7 @@ dependencies:
   iconify_flutter: ^0.0.4
   relative_scale: ^2.0.0
   spider: ^3.1.0
+  expandable: ^5.0.1
 
 dev_dependencies:
   flutter_test:

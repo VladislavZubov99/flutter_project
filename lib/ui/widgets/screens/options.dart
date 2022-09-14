@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:project/ui/app_settings/app_colors.dart';
 import 'package:project/ui/navigation/main_navigation.dart';
 
 class Options extends StatelessWidget {
@@ -43,88 +44,77 @@ class OptionsTiles extends StatelessWidget {
     var size = MediaQuery.of(context).size;
 
     return GridView(
-        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
-        gridDelegate:
-        const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-        children: [
-          InkWell(
-            onTap: () {
-              Navigator.of(context).pushNamed(MainNavigationRouteNames.combinationsScreen);
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                padding:
-                const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                        color: const Color(0xff1e988a).withOpacity(0.5),
-                        offset: const Offset(0, 0),
-                        blurRadius: 4)
-                  ],
-                  borderRadius: const BorderRadius.all(Radius.circular(20)),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    const Center(
-                      child: Icon(
-                        Icons.copy,
-                        size: 80,
-                        color: Color(0xff1e988a),
-                      ),
-                    ),
-                    Center(
-                      child: Text(
-                        'Dienstplane',
-                        style: GoogleFonts.roboto(fontSize: 16),
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                  ],
-                ),
-              ),
-            ),
+      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
+      gridDelegate:
+          const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+      children: [
+        makeOption(
+          title: 'Dashboard',
+          icon: Icons.show_chart,
+          onTap: () {
+            Navigator.of(context)
+                .pushNamed(MainNavigationRouteNames.dashboardManagementScreen);
+          },
+        ),
+        makeOption(
+          title: 'Dienstplane',
+          icon: Icons.copy,
+          onTap: () {
+            Navigator.of(context)
+                .pushNamed(MainNavigationRouteNames.combinationsScreen);
+          },
+        ),
+        makeOption(
+          title: 'Einstellungen',
+          icon: Icons.settings_outlined,
+          onTap: () {},
+        ),
+      ],
+    );
+  }
+
+  Widget makeOption({
+    required String title,
+    required IconData icon,
+    required void Function() onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                  color: AppColors.primary.withOpacity(0.5),
+                  offset: const Offset(0, 0),
+                  blurRadius: 4)
+            ],
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              padding:
-              const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                      color: const Color(0xff1e988a).withOpacity(0.5),
-                      offset: const Offset(0, 0),
-                      blurRadius: 4)
-                ],
-                borderRadius: const BorderRadius.all(Radius.circular(20)),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Center(
+                child: Icon(
+                  icon,
+                  size: 80,
+                  color: AppColors.primary,
+                ),
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  const Center(
-                    child: Icon(
-                      Icons.settings_outlined,
-                      size: 80,
-                      color: Color(0xff1e988a),
-                    ),
-                  ),
-                  Center(
-                    child: Text(
-                      'Einstellungen',
-                      style: GoogleFonts.roboto(fontSize: 16),
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                ],
+              Center(
+                child: Text(
+                  title,
+                  style: GoogleFonts.roboto(fontSize: 16),
+                ),
               ),
-            ),
+              const SizedBox(height: 5),
+            ],
           ),
-        ],
+        ),
+      ),
     );
   }
 }

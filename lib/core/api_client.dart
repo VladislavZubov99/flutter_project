@@ -3,10 +3,11 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:project/domain/data_providers/session_data_provider.dart';
+import 'package:project/domain/models/dashboard_management/companies.dart';
 
 class ApiSettings {
   final String _accessToken =
-      'Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6InRXTVZuUUlHT1ZTbGZFbXRGdUpnaUEiLCJ0eXAiOiJhdCtqd3QifQ.eyJuYmYiOjE2NjI2Mjg3NjEsImV4cCI6MTY2MjgwMTU2MSwiaXNzIjoiaHR0cHM6Ly9lYXJ0aC1pZGVudGl0eXNlcnZlcnNlcnZpY2UuYXp1cmV3ZWJzaXRlcy5uZXQiLCJhdWQiOiJlYXJ0aEFQSVNjb3BlIiwiY2xpZW50X2lkIjoiZWFydGhEZXZlbG9wQ29kZSIsInN1YiI6IjllZDMyMjExLWY0NjktNDEyZS04N2MzLTBmNmZlZjUzYjlkZCIsImF1dGhfdGltZSI6MTY2MjU1MTYzNCwiaWRwIjoibG9jYWwiLCJmYW1pbHlfbmFtZSI6IlJ5dCIsImdpdmVuX25hbWUiOiJNYXgiLCJzYXBoaXJfY3VzdG9tZXJfbnVtYmVyIjoiOTk5OTk5OTMiLCJyb2xlIjoiUHJldmlld19BY2Nlc3MiLCJlbWFpbCI6Im1yeXR3aW5za2lAc2FwaGlyLXNvZnR3YXJlLmRlIiwic2NvcGUiOlsib3BlbmlkIiwiZWFydGhBUElTY29wZSIsIm9mZmxpbmVfYWNjZXNzIl0sImFtciI6WyJwd2QiXX0.OsvmF2bFSvnrzaCLiCjatEMns54swGawOvTCZzkQQ_obqGCd7x7A9321rHxlh_tzZhvd0HQBmCKRdz-9J8qQO0hErsnIh0RW7z-U0dHxoWL49rHl1-8djPXs3EO1MK_s1JqSuOncl7mll6V27dEtmN2EZOnkkTsSzRnVscowlD2bllKRogKEcrSjmz04uBXTYOQhkUCsggY7czc5q1McojYIMnYHUrtHgiN9jCtMwEPeHhaGzMZYecgkWAb8bgN4aJmQzTKpcGo_1GUSsv1_ajuW1kLUczSiDCMslqS9wQUWzdeqlDrKz3a8AADwWDf2aEoiMPcKBHiFLNTvWPrnUA';
+      'Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6InRXTVZuUUlHT1ZTbGZFbXRGdUpnaUEiLCJ0eXAiOiJhdCtqd3QifQ.eyJuYmYiOjE2NjMxNDUyODEsImV4cCI6MTY2MzMxODA4MSwiaXNzIjoiaHR0cHM6Ly9lYXJ0aC1pZGVudGl0eXNlcnZlcnNlcnZpY2UuYXp1cmV3ZWJzaXRlcy5uZXQiLCJhdWQiOiJlYXJ0aEFQSVNjb3BlIiwiY2xpZW50X2lkIjoiZWFydGhEZXZlbG9wQ29kZSIsInN1YiI6IjllZDMyMjExLWY0NjktNDEyZS04N2MzLTBmNmZlZjUzYjlkZCIsImF1dGhfdGltZSI6MTY2MzE0NTI3NCwiaWRwIjoibG9jYWwiLCJmYW1pbHlfbmFtZSI6IlJ5dCIsImdpdmVuX25hbWUiOiJNYXgiLCJzYXBoaXJfY3VzdG9tZXJfbnVtYmVyIjoiOTk5OTk5OTMiLCJyb2xlIjoiUHJldmlld19BY2Nlc3MiLCJlbWFpbCI6Im1yeXR3aW5za2lAc2FwaGlyLXNvZnR3YXJlLmRlIiwic2NvcGUiOlsib3BlbmlkIiwiZWFydGhBUElTY29wZSIsIm9mZmxpbmVfYWNjZXNzIl0sImFtciI6WyJwd2QiXX0.B6pVGj9Bx92rGE5L8Urzslgsbf783Qpb0I2kAaf9Lq9sJSVD9KtrGyNwu868dH-uH7jjlsNAGDdr8hcQh7bAOdGzu3xUC-sFhnK4eAoMC8vmibTRthAXgmPqVDMGYj1gOOMse-psPLx_ibyPY3pbF0Ac15UYxqlk6EEdu1WEL4kZZ60sDzaYPWP-7BPWI5_XTwNuRhLPJNK8QztuotdqwEIYx9NUSUUMfPnkTQZkzUoKPyOoFaZF3PMMc8Ndpes0RsNQENyA9A2UsOigfKjx_xxq1it43q2Z_aF1UcVglbExXenOcwKbfPBUT00qyXuoeKGxDEO-XCgjG-dC_6W4sg';
 
   final String _programModuleId = '2483ef46-be8e-4bec-be6c-78be62f868c7';
   final String _tenantId = 'bd04b2ec-6ff8-4fab-8135-d21a4a3d2aa7';
@@ -21,6 +22,8 @@ class ApiSettings {
     };
   }
 
+  static String companiesView =
+      'https://earth-appservice.azurewebsites.net/api/v1/1/time-management/saphir5/plan-management/companies-view';
   static String allCombinationsEndpoint =
       'https://earth-appservice.azurewebsites.net/api/v1/1/time-management/combination/get-all-combinations-by-payer-grouping?recipientId=27&page=1&pagesize=40&startDate=2022/09/01';
 }
@@ -109,24 +112,21 @@ class ApiClient extends BaseApiClient {
     }
   }
 
-  getData() async {
-    try {
+  Future<Companies> getCompanies() async {
       Response response = await _authorizedDio.post(
-        ApiSettings.allCombinationsEndpoint,
+        ApiSettings.companiesView,
         data: {
-          "positive": true,
-          "negative": true,
-          "zero": true,
-          "isProcessed": true,
+          "dateRange": [],
+          "page": 1,
+          "pageSize": 300,
+          "sortField": "name",
+          "orderByDesc": true
         },
       );
 
-      print(response.data);
-
-      return response.data;
-    } on DioError catch (e) {
-      return e.response!.data;
-    }
+      final companies = Companies.fromJson(response.data);
+      print(companies);
+      return companies;
   }
 }
 

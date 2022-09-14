@@ -5,6 +5,7 @@ import 'package:project/ui/widgets/screens/auth/login_view_cubit.dart';
 import 'package:project/ui/widgets/screens/auth/login_widget.dart';
 import 'package:project/ui/widgets/loader_widget/loader_view_cubit.dart';
 import 'package:project/ui/widgets/screens/combinations_widget.dart';
+import 'package:project/ui/widgets/screens/dashborad_management/dashboard_management_widget.dart';
 import 'package:project/ui/widgets/screens/home.dart';
 import 'package:project/ui/widgets/loader_widget/loader_widget.dart';
 import 'package:project/ui/widgets/screens/modules.dart';
@@ -55,5 +56,8 @@ class ScreenFactory {
 
   Widget makeCombinationsScreen() {
     return const CombinationsScreen();
+  }
+  Widget makeDashboardManagementScreen() {
+    return const DashboardManagementWidget();
   }
 }

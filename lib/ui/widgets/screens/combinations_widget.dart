@@ -5,6 +5,7 @@ import 'package:project/domain/data_providers/json_data_provider.dart';
 import 'package:project/domain/models/combination.dart';
 import 'package:project/domain/models/fromJson.dart';
 import 'package:project/ui/widgets/accordion_widget.dart';
+import 'package:project/ui/widgets/custom_checkbox/custom_checkbox.dart';
 import 'package:project/ui/widgets/date_time_format.dart';
 import 'package:provider/provider.dart';
 
@@ -135,9 +136,6 @@ class _Search extends StatelessWidget {
                   height: 50,
                   child: ElevatedButton(
                       onPressed: () {
-                        final apiClient = ApiClient();
-                        apiClient.getData();
-
                         Provider.of<CombinationsNotifier>(context,
                                 listen: false)
                             .fetchNewCombinations(
@@ -302,48 +300,5 @@ String _getViewFromKey(String key) {
   }
 }
 
-class CustomCheckbox extends StatefulWidget {
-  final bool initialIsChecked;
 
-  const CustomCheckbox({Key? key, this.initialIsChecked = false})
-      : super(key: key);
 
-  @override
-  State<CustomCheckbox> createState() => _CustomCheckboxState();
-}
-
-class _CustomCheckboxState extends State<CustomCheckbox> {
-  bool isChecked = false;
-
-  @override
-  void initState() {
-    isChecked = widget.initialIsChecked;
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    Color getColor(Set<MaterialState> states) {
-      const Set<MaterialState> interactiveStates = <MaterialState>{
-        MaterialState.pressed,
-        MaterialState.hovered,
-        MaterialState.focused,
-      };
-      if (states.any(interactiveStates.contains)) {
-        return Colors.blue;
-      }
-      return const Color(0xff1e988a);
-    }
-
-    return Checkbox(
-      checkColor: Colors.white,
-      fillColor: MaterialStateProperty.resolveWith(getColor),
-      value: isChecked,
-      onChanged: (bool? value) {
-        setState(() {
-          isChecked = value!;
-        });
-      },
-    );
-  }
-}
