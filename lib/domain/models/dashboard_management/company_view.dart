@@ -58,7 +58,10 @@ class CompanyView {
   List<ColumnData> get columnList => toColumnNames()
       .entries
       .map((e) => ColumnData(
-          key: e.key, value: toJson()[e.key].toString(), name: e.value))
+            key: e.key,
+            value: toJson()[e.key].toString(),
+            name: e.value,
+          ))
       .toList();
 
   CompanyView copyWith({
@@ -88,8 +91,6 @@ class CompanyView {
     final jsonObject = toJson();
     return encoder.convert(jsonObject);
   }
-
-  prepareColumns() {}
 
 // final a = nameOf();
 
