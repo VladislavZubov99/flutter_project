@@ -1,8 +1,8 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
-import 'package:project/core/api_client.dart';
-import 'package:project/domain/models/dashboard_management/company_notifier.dart';
-import 'package:project/domain/models/dashboard_management/company_view.dart';
+import 'package:project/domain/modules/dashboard_management/models/companies/company_notifier.dart';
+import 'package:project/domain/modules/dashboard_management/models/companies/company_view.dart';
+import 'package:project/domain/modules/dashboard_management/state_machine/dashboard_management_notifier.dart';
 import 'package:project/resources/resources.dart';
 import 'package:project/ui/app_settings/app_colors.dart';
 import 'package:project/ui/app_settings/app_space.dart';
@@ -24,7 +24,9 @@ class _DashboardManagementWidgetState extends State<DashboardManagementWidget> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<CompanyNotifier>(
-            create: (_) => CompanyNotifier())
+            create: (_) => CompanyNotifier()),
+        ChangeNotifierProvider<DashboardManagementMachineNotifier>(
+            create: (_) => DashboardManagementMachineNotifier()),
       ],
       child: RelativeBuilder(
         builder: (context, height, width, sy, sx) {
@@ -34,7 +36,7 @@ class _DashboardManagementWidgetState extends State<DashboardManagementWidget> {
               endDrawer: Drawer(
                   child: Center(
                 child: Column(
-                  children: <Widget>[Text('End Drawer')],
+                  children: const <Widget>[Text('End Drawer')],
                 ),
               )),
               backgroundColor: Colors.transparent,
@@ -58,45 +60,82 @@ class _DashboardManagementWidgetState extends State<DashboardManagementWidget> {
                       ),
                     ),
                   ),
-                  Consumer<CompanyNotifier>(
-                    builder: (_, companiesModel, __) {
-                      return CustomScrollView(
+                  Consumer2<CompanyNotifier, CompanyNotifier>(
+                    builder: (_, companiesModel,  recipientsModel, __) {
+                      return CustomScrollViewWithScrollFetch(
+                        onEndScroll: () {
+                          Provider.of<CompanyNotifier>(context, listen: false).fetchNext();
+                        },
                         slivers: [
                           SliverPadding(
                             padding: const EdgeInsets.all(AppSpace.padding),
                             sliver: SliverToBoxAdapter(
-                              child: Row(
-                                children: [
-                                  SizedBox(
-                                    width: 100,
-                                    child: ElevatedButton(
-                                        onPressed: () =>
-                                            Provider.of<CompanyNotifier>(
-                                                    context,
-                                                    listen: false)
-                                                .fetchCompanies(),
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: AppColors.primary,
-                                        ),
-                                        child: const Text('Load data')),
-                                  ),
-                                ],
+                              child:
+                                  Consumer<DashboardManagementMachineNotifier>(
+                                builder: (_, machine, __) {
+                                  return Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 100,
+                                        child: ElevatedButton(
+                                            onPressed: () {},
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor:
+                                                  AppColors.primary,
+                                            ),
+                                            child: const Text('Load data')),
+                                      ),
+                                      SizedBox(width: sx(10)),
+                                      SizedBox(
+                                        width: 100,
+                                        child: ElevatedButton(
+                                            onPressed: machine.isFirstStep
+                                                ? null
+                                                : () {
+                                                    machine.toBackStep();
+                                                  },
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor:
+                                                  AppColors.primary,
+                                            ),
+                                            child: const Text('Prev')),
+                                      ),
+                                      SizedBox(width: sx(10)),
+                                      SizedBox(
+                                        width: 100,
+                                        child: ElevatedButton(
+                                            onPressed: machine.isLastStep
+                                                ? null
+                                                : () {
+                                                    machine.toNextStep();
+                                                  },
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor:
+                                                  AppColors.primary,
+                                            ),
+                                            child: const Text('Next')),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal: sx(AppSpace.padding)),
+                                        child: Text(machine.currentStep.name),
+                                      )
+                                    ],
+                                  );
+                                },
                               ),
                             ),
                           ),
-
                           SliverList(
                             delegate: SliverChildBuilderDelegate(
                               (BuildContext context, int index) {
-                                return ExpandableCompanyViewWidget(
-                                  companyView:
-                                      companiesModel.companiesList[index],
+                                return ExpandableDataViewWidget(
+                                  dataInfo: companiesModel.list[index],
                                 );
                               },
-                              childCount: companiesModel.companiesList.length,
+                              childCount: companiesModel.list.length,
                             ),
                           ),
-
                           SliverPadding(
                             padding: const EdgeInsets.all(AppSpace.padding),
                             sliver: SliverToBoxAdapter(
@@ -115,15 +154,6 @@ class _DashboardManagementWidgetState extends State<DashboardManagementWidget> {
                               ),
                             ),
                           ),
-                          // SliverPersistentHeader(
-                          //   pinned: true,
-                          //   floating: true,
-                          //   delegate: FilterDelegate(
-                          //     child: PreferredSize(
-                          //         preferredSize: Size.fromHeight(sx(180)),
-                          //         child: const FilterWidget()),
-                          //   ),
-                          // ),
                         ],
                       );
                     },
@@ -138,45 +168,114 @@ class _DashboardManagementWidgetState extends State<DashboardManagementWidget> {
   }
 }
 
-class ExpandableCompanyViewWidget extends StatelessWidget {
-  final CompanyView companyView;
+class CustomScrollViewWithScrollFetch extends StatefulWidget {
+  final List<Widget> slivers;
+  final void Function() onEndScroll;
 
-  const ExpandableCompanyViewWidget({super.key, required this.companyView});
+  static void _initialEndScroll() {}
+
+  const CustomScrollViewWithScrollFetch({
+    Key? key,
+    required this.slivers,
+    this.onEndScroll = _initialEndScroll,
+  }) : super(key: key);
+
+  @override
+  State<CustomScrollViewWithScrollFetch> createState() =>
+      _CustomScrollViewWithScrollFetchState();
+}
+
+class _CustomScrollViewWithScrollFetchState
+    extends State<CustomScrollViewWithScrollFetch> {
+  final ScrollController _controller = ScrollController();
+
+  void fetchNextPage() {
+    Provider.of<CompanyNotifier>(context, listen: false).fetchNext();
+
+    // final nextPage =
+    //     Provider.of<CompanyNotifier>(context, listen: false).nextPage;
+    //
+    // Provider.of<CompanyNotifier>(context, listen: false)
+    //     .fetchCompanies(page: nextPage);
+  }
+
+  void _onScrollEvent() {
+    if (_controller.position.pixels >= _controller.position.maxScrollExtent) {
+      widget.onEndScroll();
+      // fetchNextPage();
+    }
+  }
+
+  @override
+  void initState() {
+    _controller.addListener(_onScrollEvent);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.removeListener(_onScrollEvent);
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    return CustomScrollView(
+      controller: _controller,
+      slivers: widget.slivers,
+    );
+  }
+}
+
+class ExpandableDataViewWidget extends StatelessWidget {
+  final DataToColumns dataInfo;
+
+  const ExpandableDataViewWidget({super.key, required this.dataInfo});
+
+  @override
+  Widget build(BuildContext context) {
+    final currentData = dataInfo;
+    ColumnDataList? columnInfo;
+
+    if (currentData is CompanyView) {
+      columnInfo = ColumnDataList.company(currentData);
+    }
+
+    if (columnInfo == null) return Container();
+
     return RelativeBuilder(builder: (context, height, width, sy, sx) {
       return ExpandableNotifier(
-        initialExpanded: true,
+          initialExpanded: true,
           child: Card(
-        elevation: 5,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(sx(AppSpace.borderRadius)),
-        ),
-        clipBehavior: Clip.antiAlias,
-        child: Column(
-          children: <Widget>[
-            ExpandablePanel(
-              theme: const ExpandableThemeData(
-                headerAlignment: ExpandablePanelHeaderAlignment.center,
-                tapBodyToCollapse: true,
-                tapHeaderToExpand: false,
-              ),
-              header: Padding(
-                  padding: EdgeInsets.all(sx(AppSpace.padding)),
-                  child: Row(
-                    children: [
-                      const CustomCheckbox(),
-                      SizedBox(width: sx(AppSpace.padding)),
-                      Text(companyView.companyName),
-                    ],
-                  )),
-              collapsed: Container(),
-              expanded: _buildMobileTable(companyView.columnList),
+            elevation: 5,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(sx(AppSpace.borderRadius)),
             ),
-          ],
-        ),
-      ));
+            clipBehavior: Clip.antiAlias,
+            child: Column(
+              children: <Widget>[
+                ExpandablePanel(
+                  theme: const ExpandableThemeData(
+                    headerAlignment: ExpandablePanelHeaderAlignment.center,
+                    tapBodyToCollapse: true,
+                    tapHeaderToExpand: false,
+                  ),
+                  header: Padding(
+                      padding: EdgeInsets.all(sx(AppSpace.padding)),
+                      child: Row(
+                        children: [
+                          const CustomCheckbox(),
+                          SizedBox(width: sx(AppSpace.padding)),
+                          Text(columnInfo!.title),
+                        ],
+                      )),
+                  collapsed: Container(),
+                  expanded: _buildMobileTable(columnInfo.list),
+                ),
+              ],
+            ),
+          ));
     });
   }
 

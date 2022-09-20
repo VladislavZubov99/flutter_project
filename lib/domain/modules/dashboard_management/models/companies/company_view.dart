@@ -1,6 +1,22 @@
 import 'dart:convert';
 
-class CompanyView {
+
+class DataToColumns {
+  Map<String, dynamic> toJson() => {};
+
+  Map<String, String> toColumnNames() => {};
+
+  String get columnTitle => '';
+
+  @override
+  String toString() {
+    const JsonEncoder encoder = JsonEncoder.withIndent('  ');
+    final jsonObject = toJson();
+    return encoder.convert(jsonObject);
+  }
+}
+
+class CompanyView extends DataToColumns {
   double absenceWageSum;
   int companyId;
   String companyName;
@@ -31,6 +47,7 @@ class CompanyView {
     );
   }
 
+  @override
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['absenceWageSum'] = absenceWageSum;
@@ -43,26 +60,7 @@ class CompanyView {
     return data;
   }
 
-  Map<String, String> toColumnNames() {
-    final Map<String, String> data = <String, String>{};
-    data['companyName'] = 'Company Name';
-    data['companyId'] = 'Company ID';
-    data['absenceWageSum'] = 'AbsenceWageSum';
-    data['istWageSum'] = 'IstWageSum';
-    data['sollWageSum'] = 'SollWageSum';
-    data['difference'] = 'Difference';
-    data['sollIstDifferencePercentage'] = 'Percentage';
-    return data;
-  }
 
-  List<ColumnData> get columnList => toColumnNames()
-      .entries
-      .map((e) => ColumnData(
-            key: e.key,
-            value: toJson()[e.key].toString(),
-            name: e.value,
-          ))
-      .toList();
 
   CompanyView copyWith({
     double? absenceWageSum,
@@ -86,13 +84,20 @@ class CompanyView {
   }
 
   @override
-  String toString() {
-    const JsonEncoder encoder = JsonEncoder.withIndent('  ');
-    final jsonObject = toJson();
-    return encoder.convert(jsonObject);
+  Map<String, String> toColumnNames() {
+    final Map<String, String> data = <String, String>{};
+    data['companyName'] = 'Company Name';
+    data['companyId'] = 'Company ID';
+    data['absenceWageSum'] = 'AbsenceWageSum';
+    data['istWageSum'] = 'IstWageSum';
+    data['sollWageSum'] = 'SollWageSum';
+    data['difference'] = 'Difference';
+    data['sollIstDifferencePercentage'] = 'Percentage';
+    return data;
   }
 
-// final a = nameOf();
+ @override
+  String get columnTitle => companyName;
 
 }
 
@@ -106,4 +111,22 @@ class ColumnData {
     required this.value,
     required this.name,
   });
+}
+
+class ColumnDataList {
+  final DataToColumns entry;
+
+  ColumnDataList.company(CompanyView this.entry);
+
+  List<ColumnData> get list => entry
+      .toColumnNames()
+      .entries
+      .map((e) => ColumnData(
+            key: e.key,
+            value: entry.toJson()[e.key].toString(),
+            name: e.value,
+          ))
+      .toList();
+
+  get title => entry.columnTitle;
 }

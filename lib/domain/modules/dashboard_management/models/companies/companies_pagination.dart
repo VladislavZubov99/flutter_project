@@ -1,26 +1,45 @@
 import 'dart:convert';
 
-import 'package:project/domain/models/dashboard_management/company_view.dart';
+import 'package:project/domain/modules/dashboard_management/models/companies/company_view.dart';
 
-class Companies {
-  List<int> currentStepIds;
+class DashboardManagementPagination<T> {
   List<String> dateRange;
   int page;
   int pageSize;
   int totalCount;
+  List<T> list;
+
+  DashboardManagementPagination({
+    required this.dateRange,
+    required this.page,
+    required this.pageSize,
+    required this.totalCount,
+    required this.list,
+  });
+}
+
+class CompaniesWithPagination extends DashboardManagementPagination<CompanyView> {
+  List<int> currentStepIds;
   List<CompanyView> companiesList;
 
-  Companies(
-      {required this.currentStepIds,
-      required this.dateRange,
-      required this.page,
-      required this.pageSize,
-      required this.totalCount,
-      required List<CompanyView> viewModelList})
-      : companiesList = viewModelList;
+  CompaniesWithPagination({
+    required this.currentStepIds,
+    dateRange,
+    page,
+    pageSize,
+    totalCount,
+    required List<CompanyView> viewModelList,
+  })  : companiesList = viewModelList,
+        super(
+          dateRange: dateRange,
+          page: page,
+          pageSize: pageSize,
+          totalCount: totalCount,
+          list: viewModelList,
+        );
 
-  factory Companies.fromJson(Map<String, dynamic> json) {
-    return Companies(
+  factory CompaniesWithPagination.fromJson(Map<String, dynamic> json) {
+    return CompaniesWithPagination(
       currentStepIds: List<int>.from(json['currentStepIds']),
       dateRange: List<String>.from(json['dateRange']),
       page: json['page'],

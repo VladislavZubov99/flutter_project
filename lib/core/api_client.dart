@@ -3,12 +3,11 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:project/domain/data_providers/session_data_provider.dart';
-import 'package:project/domain/models/dashboard_management/companies.dart';
-import 'package:project/ui/widgets/screens/dashborad_management/dashboard_management_widget.dart';
+import 'package:project/domain/modules/dashboard_management/models/companies/companies_pagination.dart';
 
 class ApiSettings {
   final String _accessToken =
-      'Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6InRXTVZuUUlHT1ZTbGZFbXRGdUpnaUEiLCJ0eXAiOiJhdCtqd3QifQ.eyJuYmYiOjE2NjMzMjA0MTQsImV4cCI6MTY2MzQ5MzIxNCwiaXNzIjoiaHR0cHM6Ly9lYXJ0aC1pZGVudGl0eXNlcnZlcnNlcnZpY2UuYXp1cmV3ZWJzaXRlcy5uZXQiLCJhdWQiOiJlYXJ0aEFQSVNjb3BlIiwiY2xpZW50X2lkIjoiZWFydGhEZXZlbG9wQ29kZSIsInN1YiI6IjllZDMyMjExLWY0NjktNDEyZS04N2MzLTBmNmZlZjUzYjlkZCIsImF1dGhfdGltZSI6MTY2MzMyMDQwNywiaWRwIjoibG9jYWwiLCJmYW1pbHlfbmFtZSI6IlJ5dCIsImdpdmVuX25hbWUiOiJNYXgiLCJzYXBoaXJfY3VzdG9tZXJfbnVtYmVyIjoiOTk5OTk5OTMiLCJyb2xlIjoiUHJldmlld19BY2Nlc3MiLCJlbWFpbCI6Im1yeXR3aW5za2lAc2FwaGlyLXNvZnR3YXJlLmRlIiwic2NvcGUiOlsib3BlbmlkIiwiZWFydGhBUElTY29wZSIsIm9mZmxpbmVfYWNjZXNzIl0sImFtciI6WyJwd2QiXX0.I7ZykfWAU25ZAXAe_wTj42WJUZ_iPyV0G0LwIZnmMKF7X2k5xG6UMeZwLJ7ONy-PniB5FpLpJVhaItBXGyENXWbm5vGuUzcGaifJQQK2IgVWJWlI9i03-7j8rHuaVqFATUER9AmrZnBF79in-XvmqcHzaHxcG90h3Dm7tIG0lMNiwKc48wCV7FdCuFpV0d_cUyKAX1KK5Xyc4fDHWQTacg-yphCMJ4KCkDOayzfxEcrLQW0BO6FTqpdIhIfl-sZkuteLrB-az3bYkRQrZJTiDcPuhGmVNCXODP-QEiPNoovVHM44kbBNEzjPhPuusi-2TvsQjmD3aSNM8dSvg_QQDg';
+      'Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6InRXTVZuUUlHT1ZTbGZFbXRGdUpnaUEiLCJ0eXAiOiJhdCtqd3QifQ.eyJuYmYiOjE2NjM1NzcxMzcsImV4cCI6MTY2Mzc0OTkzNywiaXNzIjoiaHR0cHM6Ly9lYXJ0aC1pZGVudGl0eXNlcnZlcnNlcnZpY2UuYXp1cmV3ZWJzaXRlcy5uZXQiLCJhdWQiOiJlYXJ0aEFQSVNjb3BlIiwiY2xpZW50X2lkIjoiZWFydGhEZXZlbG9wQ29kZSIsInN1YiI6IjllZDMyMjExLWY0NjktNDEyZS04N2MzLTBmNmZlZjUzYjlkZCIsImF1dGhfdGltZSI6MTY2MzU3NzEzMCwiaWRwIjoibG9jYWwiLCJmYW1pbHlfbmFtZSI6IlJ5dCIsImdpdmVuX25hbWUiOiJNYXgiLCJzYXBoaXJfY3VzdG9tZXJfbnVtYmVyIjoiOTk5OTk5OTMiLCJyb2xlIjoiUHJldmlld19BY2Nlc3MiLCJlbWFpbCI6Im1yeXR3aW5za2lAc2FwaGlyLXNvZnR3YXJlLmRlIiwic2NvcGUiOlsib3BlbmlkIiwiZWFydGhBUElTY29wZSIsIm9mZmxpbmVfYWNjZXNzIl0sImFtciI6WyJwd2QiXX0.gO_BwWMUUxhKwFvCWt14A2tkjyfF9ADRQ6DsA1CfjOAS71v9yUuagvgePSMEMhp2kDGKCF4d2ylbpco28NwZvFN_zbcGqNX-GEY9Vpuok-fQn4XQIjyI7d_qy4BX2dJHVM9rwadjSJ5Awbarb1d5Z6wDrsUr60g5NsDqCnFsP6AJmsB0bzrsSN0OJ5F15vMgToS6ZF-9QHUDBE4lK6V-sJMzxBV_PUFmn1QjtU4eSRKDbRmwTLZv9Fhu2P4ijRkLxgtuLdkAsa1gyOnMH-3cXmOO6GBje5JnlrBl25XuWOZmiXMpP8gXApa6KoHn8zrr61-rUE6hmYEkJTp1u1LNDg';
 
   final String _programModuleId = '2483ef46-be8e-4bec-be6c-78be62f868c7';
   final String _tenantId = 'bd04b2ec-6ff8-4fab-8135-d21a4a3d2aa7';
@@ -113,7 +112,7 @@ class ApiClient extends BaseApiClient {
     }
   }
 
-  Future<Companies> getCompanies({
+  Future<CompaniesWithPagination> getCompanies({
     required CompaniesEndpointConfiguration configuration,
   }) async {
     Response response = await _authorizedDio.post(
@@ -127,7 +126,7 @@ class ApiClient extends BaseApiClient {
       },
     );
 
-    final companies = Companies.fromJson(response.data);
+    final companies = CompaniesWithPagination.fromJson(response.data);
     print(companies);
     return companies;
   }
@@ -152,7 +151,7 @@ class CompaniesEndpointConfiguration {
   const CompaniesEndpointConfiguration({
     this.dateRange = const [],
     this.page = 1,
-    this.pageSize = 300,
+    this.pageSize = 4,
     this.sortField = "name",
     this.orderByDesc = true,
   });
