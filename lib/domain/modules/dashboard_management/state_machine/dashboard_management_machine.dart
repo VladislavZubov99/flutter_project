@@ -144,6 +144,29 @@ class DashboardManagementMachine {
     }
   }
 
-  get currentStep => _dashboardMachine.current;
+
+  String get currentStep {
+
+    if (isCompany()) return 'Companies';
+    if (isRecipient()) return 'Recipients';
+    if (isPayer()) return 'Payers';
+    if (isCombination()) return 'Combinations';
+    if (isEmployee()) return 'Employees';
+    if (isWageType()) return 'Wage Types';
+
+    return '';
+  }
+
+  DashboardManagementMachineStates get currentStepState {
+
+    if (isCompany()) return DashboardManagementMachineStates.company;
+    if (isRecipient()) return DashboardManagementMachineStates.recipient;
+    if (isPayer()) return DashboardManagementMachineStates.payer;
+    if (isCombination()) return DashboardManagementMachineStates.combination;
+    if (isEmployee()) return DashboardManagementMachineStates.employee;
+    if (isWageType()) return DashboardManagementMachineStates.wageType;
+
+    return DashboardManagementMachineStates.company;
+  }
 }
 

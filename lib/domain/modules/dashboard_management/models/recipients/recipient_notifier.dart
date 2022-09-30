@@ -1,18 +1,12 @@
 import 'package:project/core/api_client.dart';
 import 'package:project/core/api_configurations.dart';
 import 'package:project/domain/modules/dashboard_management/models/common/notifier.dart';
-import 'package:project/domain/modules/dashboard_management/models/companies/company_view.dart';
+import 'package:project/domain/modules/dashboard_management/models/recipients/recipient_view.dart';
 
-class CompanyNotifier extends DashboardManagementFetching<CompanyView> {
+class RecipientNotifier extends DashboardManagementFetching<RecipientView> {
   final ApiClient _apiClient = ApiClient();
 
-  CompanyNotifier() : super() {
-    final DashboardManagementEndpointConfiguration filterConfiguration =
-        DashboardManagementEndpointConfiguration(
-      filterLists: FilterListsConfiguration(),
-    );
-    fetchNext(filterConfiguration: filterConfiguration);
-  }
+  RecipientNotifier() : super();
 
   @override
   Future<void> fetchNext(
@@ -23,19 +17,19 @@ class CompanyNotifier extends DashboardManagementFetching<CompanyView> {
     }
 
     loading = true;
-    final List<CompanyView> oldCompaniesList = [...list];
     notifyListeners();
 
+    final List<RecipientView> oldList = [...list];
     final DashboardManagementEndpointConfiguration configuration =
         filterConfiguration.copyWith(page: nextPage);
 
-    dataWithPagination = (await _apiClient.getCompanies(
+    dataWithPagination = (await _apiClient.getRecipients(
       configuration: configuration,
     ));
 
-    final newCompaniesList = dataWithPagination!.list;
+    final newList = dataWithPagination!.list;
 
-    list = [...oldCompaniesList, ...newCompaniesList];
+    list = [...oldList, ...newList];
 
     loading = false;
     currentPage = nextPage;

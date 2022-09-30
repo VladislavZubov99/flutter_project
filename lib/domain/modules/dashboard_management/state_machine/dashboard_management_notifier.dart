@@ -21,7 +21,14 @@ class DashboardManagementMachineNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  get isLastStep => _machine.isWageType();
-  get isFirstStep => _machine.isCompany();
-  get currentStep => _machine.currentStep;
+  bool get isLastStep => _machine.isWageType();
+  bool get isFirstStep => _machine.isCompany();
+  String get currentStep => _machine.currentStep;
+  DashboardManagementMachineStates get currentStepState => _machine.currentStepState;
+
+  String get stateName {
+    return "${currentStep[0].toUpperCase()}${currentStep.substring(1)}";
+  }
+
+
 }

@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 
 class CustomCheckbox extends StatefulWidget {
+  final bool? value;
   final bool initialIsChecked;
+  final void Function(bool isChecked) onChangeCallback;
 
-  const CustomCheckbox({Key? key, this.initialIsChecked = false})
-      : super(key: key);
+  static _initialCallback(bool val) {}
+
+  const CustomCheckbox({
+    Key? key,
+    this.value,
+    this.initialIsChecked = false,
+    this.onChangeCallback = _initialCallback,
+  }) : super(key: key);
 
   @override
   State<CustomCheckbox> createState() => _CustomCheckboxState();
@@ -17,6 +25,11 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
   void initState() {
     isChecked = widget.initialIsChecked;
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -33,14 +46,16 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
       return const Color(0xff1e988a);
     }
 
+
     return Checkbox(
       checkColor: Colors.white,
       fillColor: MaterialStateProperty.resolveWith(getColor),
-      value: isChecked,
+      value: widget.value ?? isChecked,
       onChanged: (bool? value) {
         setState(() {
           isChecked = value!;
         });
+        widget.onChangeCallback(value!);
       },
     );
   }

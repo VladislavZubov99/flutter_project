@@ -1,33 +1,18 @@
 import 'dart:convert';
 
+import 'package:project/domain/modules/dashboard_management/models/common/pagination.dart';
 import 'package:project/domain/modules/dashboard_management/models/companies/company_view.dart';
 
-class DashboardManagementPagination<T> {
-  List<String> dateRange;
-  int page;
-  int pageSize;
-  int totalCount;
-  List<T> list;
-
-  DashboardManagementPagination({
-    required this.dateRange,
-    required this.page,
-    required this.pageSize,
-    required this.totalCount,
-    required this.list,
-  });
-}
-
-class CompaniesWithPagination extends DashboardManagementPagination<CompanyView> {
-  List<int> currentStepIds;
+class CompaniesWithPagination
+    extends DashboardManagementPagination<CompanyView> {
   List<CompanyView> companiesList;
 
   CompaniesWithPagination({
-    required this.currentStepIds,
     dateRange,
     page,
     pageSize,
     totalCount,
+    currentStepIds,
     required List<CompanyView> viewModelList,
   })  : companiesList = viewModelList,
         super(
@@ -36,6 +21,7 @@ class CompaniesWithPagination extends DashboardManagementPagination<CompanyView>
           pageSize: pageSize,
           totalCount: totalCount,
           list: viewModelList,
+          currentStepIds: currentStepIds,
         );
 
   factory CompaniesWithPagination.fromJson(Map<String, dynamic> json) {

@@ -1,20 +1,5 @@
-import 'dart:convert';
+import 'package:project/domain/modules/dashboard_management/models/data_columns/data_columns.dart';
 
-
-class DataToColumns {
-  Map<String, dynamic> toJson() => {};
-
-  Map<String, String> toColumnNames() => {};
-
-  String get columnTitle => '';
-
-  @override
-  String toString() {
-    const JsonEncoder encoder = JsonEncoder.withIndent('  ');
-    final jsonObject = toJson();
-    return encoder.convert(jsonObject);
-  }
-}
 
 class CompanyView extends DataToColumns {
   double absenceWageSum;
@@ -34,6 +19,9 @@ class CompanyView extends DataToColumns {
     required this.sollIstDifferencePercentage,
     required this.sollWageSum,
   });
+
+  @override
+  String get columnTitle => companyName;
 
   factory CompanyView.fromJson(Map<String, dynamic> json) {
     return CompanyView(
@@ -96,37 +84,7 @@ class CompanyView extends DataToColumns {
     return data;
   }
 
- @override
-  String get columnTitle => companyName;
+
 
 }
 
-class ColumnData {
-  final String key;
-  final String value;
-  final String name;
-
-  const ColumnData({
-    required this.key,
-    required this.value,
-    required this.name,
-  });
-}
-
-class ColumnDataList {
-  final DataToColumns entry;
-
-  ColumnDataList.company(CompanyView this.entry);
-
-  List<ColumnData> get list => entry
-      .toColumnNames()
-      .entries
-      .map((e) => ColumnData(
-            key: e.key,
-            value: entry.toJson()[e.key].toString(),
-            name: e.value,
-          ))
-      .toList();
-
-  get title => entry.columnTitle;
-}

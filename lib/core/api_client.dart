@@ -2,12 +2,19 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:project/core/api_configurations.dart';
 import 'package:project/domain/data_providers/session_data_provider.dart';
+import 'package:project/domain/modules/dashboard_management/models/combinations/combinations_pagination.dart';
 import 'package:project/domain/modules/dashboard_management/models/companies/companies_pagination.dart';
+import 'package:project/domain/modules/dashboard_management/models/employees/employees_pagination.dart';
+import 'package:project/domain/modules/dashboard_management/models/payers/payers_pagination.dart';
+import 'package:project/domain/modules/dashboard_management/models/wage_types/wage_types_pagination.dart';
+
+import 'package:project/domain/modules/dashboard_management/models/recipients/recipients_pagination.dart';
 
 class ApiSettings {
   final String _accessToken =
-      'Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6InRXTVZuUUlHT1ZTbGZFbXRGdUpnaUEiLCJ0eXAiOiJhdCtqd3QifQ.eyJuYmYiOjE2NjM1NzcxMzcsImV4cCI6MTY2Mzc0OTkzNywiaXNzIjoiaHR0cHM6Ly9lYXJ0aC1pZGVudGl0eXNlcnZlcnNlcnZpY2UuYXp1cmV3ZWJzaXRlcy5uZXQiLCJhdWQiOiJlYXJ0aEFQSVNjb3BlIiwiY2xpZW50X2lkIjoiZWFydGhEZXZlbG9wQ29kZSIsInN1YiI6IjllZDMyMjExLWY0NjktNDEyZS04N2MzLTBmNmZlZjUzYjlkZCIsImF1dGhfdGltZSI6MTY2MzU3NzEzMCwiaWRwIjoibG9jYWwiLCJmYW1pbHlfbmFtZSI6IlJ5dCIsImdpdmVuX25hbWUiOiJNYXgiLCJzYXBoaXJfY3VzdG9tZXJfbnVtYmVyIjoiOTk5OTk5OTMiLCJyb2xlIjoiUHJldmlld19BY2Nlc3MiLCJlbWFpbCI6Im1yeXR3aW5za2lAc2FwaGlyLXNvZnR3YXJlLmRlIiwic2NvcGUiOlsib3BlbmlkIiwiZWFydGhBUElTY29wZSIsIm9mZmxpbmVfYWNjZXNzIl0sImFtciI6WyJwd2QiXX0.gO_BwWMUUxhKwFvCWt14A2tkjyfF9ADRQ6DsA1CfjOAS71v9yUuagvgePSMEMhp2kDGKCF4d2ylbpco28NwZvFN_zbcGqNX-GEY9Vpuok-fQn4XQIjyI7d_qy4BX2dJHVM9rwadjSJ5Awbarb1d5Z6wDrsUr60g5NsDqCnFsP6AJmsB0bzrsSN0OJ5F15vMgToS6ZF-9QHUDBE4lK6V-sJMzxBV_PUFmn1QjtU4eSRKDbRmwTLZv9Fhu2P4ijRkLxgtuLdkAsa1gyOnMH-3cXmOO6GBje5JnlrBl25XuWOZmiXMpP8gXApa6KoHn8zrr61-rUE6hmYEkJTp1u1LNDg';
+      'Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6InRXTVZuUUlHT1ZTbGZFbXRGdUpnaUEiLCJ0eXAiOiJhdCtqd3QifQ.eyJuYmYiOjE2NjQ1MzY5MDAsImV4cCI6MTY2NDcwOTcwMCwiaXNzIjoiaHR0cHM6Ly9lYXJ0aC1pZGVudGl0eXNlcnZlcnNlcnZpY2UuYXp1cmV3ZWJzaXRlcy5uZXQiLCJhdWQiOiJlYXJ0aEFQSVNjb3BlIiwiY2xpZW50X2lkIjoiZWFydGhEZXZlbG9wQ29kZSIsInN1YiI6IjllZDMyMjExLWY0NjktNDEyZS04N2MzLTBmNmZlZjUzYjlkZCIsImF1dGhfdGltZSI6MTY2NDM1NzcyNCwiaWRwIjoibG9jYWwiLCJmYW1pbHlfbmFtZSI6IlJ5dCIsImdpdmVuX25hbWUiOiJNYXgiLCJzYXBoaXJfY3VzdG9tZXJfbnVtYmVyIjoiOTk5OTk5OTMiLCJyb2xlIjoiUHJldmlld19BY2Nlc3MiLCJlbWFpbCI6Im1yeXR3aW5za2lAc2FwaGlyLXNvZnR3YXJlLmRlIiwic2NvcGUiOlsib3BlbmlkIiwiZWFydGhBUElTY29wZSIsIm9mZmxpbmVfYWNjZXNzIl0sImFtciI6WyJwd2QiXX0.VMnrbAdasefKOeiCajExCVbZ1uFU0RX3rZmpMO3dJK22oMIRlKS7amtdsrFoghsFfjYk7KdKAeUaGOszmy95eva2SlkWMky3J0M4BzFRb32ME_pk_BfPCCveJwBufXQpVkxr1QpcPdRkv8c8ANbq6K7_EvOsPDCpCVQRCKYrSfTXrHOMN2_qnSVMNPpMb56GMeOUakdooYBYWJmVjeN8m2U3YbCYOCNf3os0NcQ5XDU4cqEChr82RjH19yM0VkzemJw6CiUSYHDSJEjRMgOvEWkDU6h124OiUVRiz3M2jjgwoIIiQke1ud83HHula7l9lj5Vi93N5PPtxMtEXOjy2w';
 
   final String _programModuleId = '2483ef46-be8e-4bec-be6c-78be62f868c7';
   final String _tenantId = 'bd04b2ec-6ff8-4fab-8135-d21a4a3d2aa7';
@@ -24,6 +31,16 @@ class ApiSettings {
 
   static String companiesView =
       'https://earth-appservice.azurewebsites.net/api/v1/1/time-management/saphir5/plan-management/companies-view';
+  static String combinationsView =
+      'https://earth-appservice.azurewebsites.net/api/v1/1/time-management/saphir5/plan-management/combinations-view';
+  static String employeesView =
+      'https://earth-appservice.azurewebsites.net/api/v1/1/time-management/saphir5/plan-management/employees-view';
+  static String wageTypesView =
+      'https://earth-appservice.azurewebsites.net/api/v1/1/time-management/saphir5/plan-management/wagetypes-view';
+  static String recipientsView =
+      'https://earth-appservice.azurewebsites.net/api/v1/1/time-management/saphir5/plan-management/recipients-view';
+  static String payersView =
+      'https://earth-appservice.azurewebsites.net/api/v1/1/time-management/saphir5/plan-management/payers-view';
   static String allCombinationsEndpoint =
       'https://earth-appservice.azurewebsites.net/api/v1/1/time-management/combination/get-all-combinations-by-payer-grouping?recipientId=27&page=1&pagesize=40&startDate=2022/09/01';
 }
@@ -113,22 +130,75 @@ class ApiClient extends BaseApiClient {
   }
 
   Future<CompaniesWithPagination> getCompanies({
-    required CompaniesEndpointConfiguration configuration,
+    required DashboardManagementEndpointConfiguration configuration,
   }) async {
     Response response = await _authorizedDio.post(
       ApiSettings.companiesView,
-      data: {
-        "dateRange": configuration.dateRange,
-        "page": configuration.page,
-        "pageSize": configuration.pageSize,
-        "sortField": configuration.sortField,
-        "orderByDesc": configuration.orderByDesc
-      },
+      data: configuration.body,
     );
 
     final companies = CompaniesWithPagination.fromJson(response.data);
-    print(companies);
     return companies;
+  }
+
+  Future<RecipientsWithPagination> getRecipients({
+    required DashboardManagementEndpointConfiguration configuration,
+  }) async {
+    Response response = await _authorizedDio.post(
+      ApiSettings.recipientsView,
+      data: configuration.body,
+    );
+
+    final recipients = RecipientsWithPagination.fromJson(response.data);
+    return recipients;
+  }
+
+  Future<PayersWithPagination> getPayers({
+    required DashboardManagementEndpointConfiguration configuration,
+  }) async {
+    Response response = await _authorizedDio.post(
+      ApiSettings.payersView,
+      data: configuration.body,
+    );
+
+    final payers = PayersWithPagination.fromJson(response.data);
+    return payers;
+  }
+
+  Future<CombinationsWithPagination> getCombinations({
+    required DashboardManagementEndpointConfiguration configuration,
+  }) async {
+    Response response = await _authorizedDio.post(
+      ApiSettings.combinationsView,
+      data: configuration.body,
+    );
+
+    final combinations = CombinationsWithPagination.fromJson(response.data);
+    return combinations;
+  }
+
+  Future<EmployeesWithPagination> getEmployees({
+    required DashboardManagementEndpointConfiguration configuration,
+  }) async {
+    Response response = await _authorizedDio.post(
+      ApiSettings.employeesView,
+      data: configuration.body,
+    );
+
+    final employees = EmployeesWithPagination.fromJson(response.data);
+    return employees;
+  }
+
+  Future<WageTypesWithPagination> getWageTypes({
+    required DashboardManagementEndpointConfiguration configuration,
+  }) async {
+    Response response = await _authorizedDio.post(
+      ApiSettings.wageTypesView,
+      data: configuration.body,
+    );
+
+    final wageTypes = WageTypesWithPagination.fromJson(response.data);
+    return wageTypes;
   }
 }
 
@@ -141,18 +211,4 @@ class ApiClientException implements Exception {
   ApiClientException(this.type, {this.message});
 }
 
-class CompaniesEndpointConfiguration {
-  final List<String> dateRange;
-  final int page;
-  final int pageSize;
-  final String sortField;
-  final bool orderByDesc;
 
-  const CompaniesEndpointConfiguration({
-    this.dateRange = const [],
-    this.page = 1,
-    this.pageSize = 4,
-    this.sortField = "name",
-    this.orderByDesc = true,
-  });
-}
