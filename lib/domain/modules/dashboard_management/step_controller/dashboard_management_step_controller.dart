@@ -31,8 +31,8 @@ class DashboardManagementStepController {
 
   final FilterListsConfiguration filter = FilterListsConfiguration();
   DashboardManagementEndpointConfiguration endpointConfiguration =
-  DashboardManagementEndpointConfiguration(
-      filterLists: FilterListsConfiguration());
+      DashboardManagementEndpointConfiguration(
+          filterLists: FilterListsConfiguration());
 
   DashboardManagementStepController({
     required this.machine,
@@ -101,22 +101,44 @@ class DashboardManagementStepController {
   }
 
   fetchNextByStep() {
+    switch (machine.currentStepState) {
+      case DashboardManagementMachineStates.company:
+        endpointConfiguration = endpointConfiguration.copyWith(
+            filterLists: filter.copyWith(companyIds: []));
+        break;
+      case DashboardManagementMachineStates.recipient:
+        endpointConfiguration = endpointConfiguration.copyWith(
+            filterLists: filter.copyWith(recipientIds: []));
+        break;
+      case DashboardManagementMachineStates.payer:
+        endpointConfiguration = endpointConfiguration.copyWith(
+            filterLists: filter.copyWith(payerIds: []));
+        break;
+      case DashboardManagementMachineStates.combination:
+        endpointConfiguration = endpointConfiguration.copyWith(
+            filterLists: filter.copyWith(combinationIds: []));
+        break;
+      case DashboardManagementMachineStates.employee:
+        endpointConfiguration = endpointConfiguration.copyWith(
+            filterLists: filter.copyWith(employeeIds: []));
+        break;
+      case DashboardManagementMachineStates.wageType:
+        endpointConfiguration = endpointConfiguration.copyWith(
+            filterLists: filter.copyWith(wageTypeIds: []));
+        break;
+    }
     fetchByIdsList();
   }
 
-  updateEndpointConfiguration({
-    int? pageSize,
-    String? sortField,
-    bool? orderByDesc,
-    List<String>? dateRange,
-  }) {
+  updateEndpointConfiguration(
+      {required DashboardManagementEndpointConfiguration configuration}) {
     endpointConfiguration = endpointConfiguration.copyWith(
-      pageSize: pageSize,
-      sortField: sortField,
-      orderByDesc: orderByDesc,
-      dateRange: dateRange,
+      pageSize: configuration.pageSize,
+      sortField: configuration.sortField,
+      orderByDesc: configuration.orderByDesc,
+      dateRange: configuration.dateRange,
     );
     currentViewModel.resetData();
-    fetchByIdsList();
+    fetchNextByStep();
   }
 }

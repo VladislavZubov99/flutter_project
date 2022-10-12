@@ -25,13 +25,13 @@ class CompanyView extends DataToColumns {
 
   factory CompanyView.fromJson(Map<String, dynamic> json) {
     return CompanyView(
-      absenceWageSum: json['absenceWageSum'],
+      absenceWageSum: json['absenceWageSum'].toDouble(),
+      difference: json['difference'].toDouble(),
+      istWageSum: json['istWageSum'].toDouble(),
+      sollIstDifferencePercentage: json['sollIstDifferencePercentage'].toDouble(),
+      sollWageSum: json['sollWageSum'].toDouble(),
       companyId: json['companyId'],
       companyName: json['companyName'],
-      difference: json['difference'],
-      istWageSum: json['istWageSum'],
-      sollIstDifferencePercentage: json['sollIstDifferencePercentage'],
-      sollWageSum: json['sollWageSum'],
     );
   }
 

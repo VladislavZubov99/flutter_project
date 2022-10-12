@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project/domain/data_providers/session_data_provider.dart';
 import 'package:project/ui/navigation/main_navigation.dart';
+import 'package:project/ui/widgets/access_token_dialog/access_token_dialog_widget.dart';
 
 class NavigationDrawer extends StatelessWidget {
   const NavigationDrawer({Key? key}) : super(key: key);
@@ -66,6 +67,7 @@ class NavigationDrawer extends StatelessWidget {
     final SessionDataProvider sessionDataProvider = SessionDataProvider();
 
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Container(
           padding: EdgeInsets.symmetric(horizontal: size.width * 0.02),
@@ -85,6 +87,14 @@ class NavigationDrawer extends StatelessWidget {
         ),
         const Divider(height: 4),
         Expanded(child: Container()),
+        Row(
+          children: const [
+            Padding(
+              padding: EdgeInsets.only(left: 24.0),
+              child: AccessTokenDialogWidget(),
+            ),
+          ],
+        ),
         Container(
           padding: EdgeInsets.symmetric(horizontal: size.width * 0.02),
           child: ListTile(

@@ -12,18 +12,24 @@ import 'package:project/domain/modules/dashboard_management/models/wage_types/wa
 
 import 'package:project/domain/modules/dashboard_management/models/recipients/recipients_pagination.dart';
 
+import 'package:flutter_appauth/flutter_appauth.dart';
+
+
 class ApiSettings {
+  final _sessionDataProvider = SessionDataProvider();
+
   final String _accessToken =
-      'Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6InRXTVZuUUlHT1ZTbGZFbXRGdUpnaUEiLCJ0eXAiOiJhdCtqd3QifQ.eyJuYmYiOjE2NjQ1MzY5MDAsImV4cCI6MTY2NDcwOTcwMCwiaXNzIjoiaHR0cHM6Ly9lYXJ0aC1pZGVudGl0eXNlcnZlcnNlcnZpY2UuYXp1cmV3ZWJzaXRlcy5uZXQiLCJhdWQiOiJlYXJ0aEFQSVNjb3BlIiwiY2xpZW50X2lkIjoiZWFydGhEZXZlbG9wQ29kZSIsInN1YiI6IjllZDMyMjExLWY0NjktNDEyZS04N2MzLTBmNmZlZjUzYjlkZCIsImF1dGhfdGltZSI6MTY2NDM1NzcyNCwiaWRwIjoibG9jYWwiLCJmYW1pbHlfbmFtZSI6IlJ5dCIsImdpdmVuX25hbWUiOiJNYXgiLCJzYXBoaXJfY3VzdG9tZXJfbnVtYmVyIjoiOTk5OTk5OTMiLCJyb2xlIjoiUHJldmlld19BY2Nlc3MiLCJlbWFpbCI6Im1yeXR3aW5za2lAc2FwaGlyLXNvZnR3YXJlLmRlIiwic2NvcGUiOlsib3BlbmlkIiwiZWFydGhBUElTY29wZSIsIm9mZmxpbmVfYWNjZXNzIl0sImFtciI6WyJwd2QiXX0.VMnrbAdasefKOeiCajExCVbZ1uFU0RX3rZmpMO3dJK22oMIRlKS7amtdsrFoghsFfjYk7KdKAeUaGOszmy95eva2SlkWMky3J0M4BzFRb32ME_pk_BfPCCveJwBufXQpVkxr1QpcPdRkv8c8ANbq6K7_EvOsPDCpCVQRCKYrSfTXrHOMN2_qnSVMNPpMb56GMeOUakdooYBYWJmVjeN8m2U3YbCYOCNf3os0NcQ5XDU4cqEChr82RjH19yM0VkzemJw6CiUSYHDSJEjRMgOvEWkDU6h124OiUVRiz3M2jjgwoIIiQke1ud83HHula7l9lj5Vi93N5PPtxMtEXOjy2w';
+      'Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6InRXTVZuUUlHT1ZTbGZFbXRGdUpnaUEiLCJ0eXAiOiJhdCtqd3QifQ.eyJuYmYiOjE2NjQ5NjQ4ODgsImV4cCI6MTY2NTEzNzY4OCwiaXNzIjoiaHR0cHM6Ly9lYXJ0aC1pZGVudGl0eXNlcnZlcnNlcnZpY2UuYXp1cmV3ZWJzaXRlcy5uZXQiLCJhdWQiOiJlYXJ0aEFQSVNjb3BlIiwiY2xpZW50X2lkIjoiZWFydGhEZXZlbG9wQ29kZSIsInN1YiI6IjllZDMyMjExLWY0NjktNDEyZS04N2MzLTBmNmZlZjUzYjlkZCIsImF1dGhfdGltZSI6MTY2NDk2NDg3OSwiaWRwIjoibG9jYWwiLCJmYW1pbHlfbmFtZSI6IlJ5dCIsImdpdmVuX25hbWUiOiJNYXgiLCJzYXBoaXJfY3VzdG9tZXJfbnVtYmVyIjoiOTk5OTk5OTMiLCJyb2xlIjoiUHJldmlld19BY2Nlc3MiLCJlbWFpbCI6Im1yeXR3aW5za2lAc2FwaGlyLXNvZnR3YXJlLmRlIiwic2NvcGUiOlsib3BlbmlkIiwiZWFydGhBUElTY29wZSIsIm9mZmxpbmVfYWNjZXNzIl0sImFtciI6WyJwd2QiXX0.dhAyXok2ZsDbnQ39w6MTzLQGqRLrYL4EoXFUqYIEykSHCfu-nqAenSGbcnviBTfsrd_hb1hJW6fRXJzZzNELb_girfCxcfCeexqIYQGCkWue42SsL5OTQkTiblR_sg9xgFfM6kkEWkKtfwJ3zqH78B7Q75NY1HNZq_9fY7t4iF-7MyfTktEcwR0tBgYvIxvJTZYlw01B4SmAkCzH8VmzhoT705uW9RAY3wzzDZ3oEGhbOp_OLwEXE_e-M2N4EBtiIW6kGJMqbE694n1VE3zlzOEKqAXe4jdrWxUo6-_onfz5MshM-Hv7C4JJNRri_tPSzPPOmh5jIpoeFGO3ZtVlbw';
 
   final String _programModuleId = '2483ef46-be8e-4bec-be6c-78be62f868c7';
   final String _tenantId = 'bd04b2ec-6ff8-4fab-8135-d21a4a3d2aa7';
 
   // final String;
 
-  getAuthorizedHeaders() {
+  Future<Map<String, String>> getAuthorizedHeaders() async {
+    final accessToken = await _sessionDataProvider.getAccessToken();
     return {
-      'Authorization': _accessToken,
+      'Authorization': accessToken ?? '',
       'X-PROGRAMMODULE-ID': _programModuleId,
       'X-TENANT-ID': _tenantId,
     };
@@ -51,11 +57,14 @@ class BaseApiClient {
 
   static final _apiSettings = ApiSettings();
 
-  final _authorizedDio = Dio(
-    BaseOptions(
-      headers: _apiSettings.getAuthorizedHeaders(),
-    ),
-  );
+  getAuthorizedDio() async {
+    final headers = await _apiSettings.getAuthorizedHeaders();
+    return Dio(
+      BaseOptions(
+        headers: headers,
+      ),
+    );
+  }
 
   static const _host = 'https://d9a5-95-174-105-30.ngrok.io/api';
 }
@@ -63,10 +72,11 @@ class BaseApiClient {
 class ApiClient extends BaseApiClient {
   Future<String> makeAccessToken(
       {required String login, required String password}) async {
+    final accessToken = await _sessionDataProvider.getAccessToken();
     try {
       return Future.delayed(const Duration(milliseconds: 2000), () {
         if (login == 'admin@test.it' && password == '123456') {
-          return 'logged';
+          return accessToken ?? 'Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6InRXTVZuUUlHT1ZTbGZFbXRGdUpnaUEiLCJ0eXAiOiJhdCtqd3QifQ.eyJuYmYiOjE2NjQ5NzQ0NzksImV4cCI6MTY2NTE0NzI3OSwiaXNzIjoiaHR0cHM6Ly9lYXJ0aC1pZGVudGl0eXNlcnZlcnNlcnZpY2UuYXp1cmV3ZWJzaXRlcy5uZXQiLCJhdWQiOiJlYXJ0aEFQSVNjb3BlIiwiY2xpZW50X2lkIjoiZWFydGhEZXZlbG9wQ29kZSIsInN1YiI6IjllZDMyMjExLWY0NjktNDEyZS04N2MzLTBmNmZlZjUzYjlkZCIsImF1dGhfdGltZSI6MTY2NDk2NDg3OSwiaWRwIjoibG9jYWwiLCJmYW1pbHlfbmFtZSI6IlJ5dCIsImdpdmVuX25hbWUiOiJNYXgiLCJzYXBoaXJfY3VzdG9tZXJfbnVtYmVyIjoiOTk5OTk5OTMiLCJyb2xlIjoiUHJldmlld19BY2Nlc3MiLCJlbWFpbCI6Im1yeXR3aW5za2lAc2FwaGlyLXNvZnR3YXJlLmRlIiwic2NvcGUiOlsib3BlbmlkIiwiZWFydGhBUElTY29wZSIsIm9mZmxpbmVfYWNjZXNzIl0sImFtciI6WyJwd2QiXX0.Zf1RnBmBbtFiujGCoxdcmmAyD9q9M3hf0lsRAkgoKiBdKApmJt19yGDzfwO9sQmV_LUid1nQoaPsozM0R4xm0-uqnCh0Gv26s7LYTouo4UVoL_GLOMx6VogBGf6j4FcfwQN4rgOKwVQx1gBjCRkakYW1EI3SLHFAAMxLcJnP8GbIj5tqo6Kpd0iYOmHCY_bmL1qBjLftnBTJhAL5wWS46Y1sSkvLvBFuqsRhqJFb7ulie2soCM2oiRQv4pRo_c_ZOXw9hijAAoljP1IJYFlT4seJVT7tX22oL2wOJ758ux-PCBAr8N6vtNW3qGIGW0_ZFrchJc2PggDNBKBeu7n7Jw';
         } else {
           throw ApiClientException(ApiClientExceptionType.auth);
         }
@@ -132,73 +142,113 @@ class ApiClient extends BaseApiClient {
   Future<CompaniesWithPagination> getCompanies({
     required DashboardManagementEndpointConfiguration configuration,
   }) async {
-    Response response = await _authorizedDio.post(
-      ApiSettings.companiesView,
-      data: configuration.body,
-    );
+    try {
+      final authorizedDio = await getAuthorizedDio();
+      Response response = await authorizedDio.post(
+        ApiSettings.companiesView,
+        data: configuration.body,
+      );
 
-    final companies = CompaniesWithPagination.fromJson(response.data);
-    return companies;
+      final companies = CompaniesWithPagination.fromJson(response.data);
+      return companies;
+    } on DioError catch (e) {
+      print(e.message);
+      throw ApiClientException(ApiClientExceptionType.other, message: e.message);
+    }
   }
 
   Future<RecipientsWithPagination> getRecipients({
     required DashboardManagementEndpointConfiguration configuration,
   }) async {
-    Response response = await _authorizedDio.post(
-      ApiSettings.recipientsView,
-      data: configuration.body,
-    );
+    try {
+      final authorizedDio = await getAuthorizedDio();
+      Response response = await authorizedDio.post(
+        ApiSettings.recipientsView,
+        data: configuration.body,
+      );
+      final recipients = RecipientsWithPagination.fromJson(response.data);
+      return recipients;
+    } on DioError catch (e) {
+      print(e.message);
 
-    final recipients = RecipientsWithPagination.fromJson(response.data);
-    return recipients;
+      throw ApiClientException(ApiClientExceptionType.other, message: e.message);
+    }
   }
 
   Future<PayersWithPagination> getPayers({
     required DashboardManagementEndpointConfiguration configuration,
   }) async {
-    Response response = await _authorizedDio.post(
-      ApiSettings.payersView,
-      data: configuration.body,
-    );
+    try {
+      final authorizedDio = await getAuthorizedDio();
+      Response response = await authorizedDio.post(
+        ApiSettings.payersView,
+        data: configuration.body,
+      );
 
-    final payers = PayersWithPagination.fromJson(response.data);
-    return payers;
+      final payers = PayersWithPagination.fromJson(response.data);
+      return payers;
+    } on DioError catch (e) {
+      print(e.message);
+
+      throw ApiClientException(ApiClientExceptionType.other, message: e.message);
+    }
   }
 
   Future<CombinationsWithPagination> getCombinations({
     required DashboardManagementEndpointConfiguration configuration,
   }) async {
-    Response response = await _authorizedDio.post(
-      ApiSettings.combinationsView,
-      data: configuration.body,
-    );
+    try {
+      final authorizedDio = await getAuthorizedDio();
+      Response response = await authorizedDio.post(
+        ApiSettings.combinationsView,
+        data: configuration.body,
+      );
 
-    final combinations = CombinationsWithPagination.fromJson(response.data);
-    return combinations;
+      final combinations = CombinationsWithPagination.fromJson(response.data);
+      return combinations;
+    } on DioError catch (e) {
+      print(e.message);
+
+      throw ApiClientException(ApiClientExceptionType.other, message: e.message);
+    }
   }
 
   Future<EmployeesWithPagination> getEmployees({
     required DashboardManagementEndpointConfiguration configuration,
   }) async {
-    Response response = await _authorizedDio.post(
-      ApiSettings.employeesView,
-      data: configuration.body,
-    );
+    try {
+      final authorizedDio = await getAuthorizedDio();
+      Response response = await authorizedDio.post(
+        ApiSettings.employeesView,
+        data: configuration.body,
+      );
 
-    final employees = EmployeesWithPagination.fromJson(response.data);
-    return employees;
+      final employees = EmployeesWithPagination.fromJson(response.data);
+      return employees;
+    } on DioError catch (e) {
+      print(e.message);
+
+      throw ApiClientException(ApiClientExceptionType.other, message: e.message);
+    }
   }
 
   Future<WageTypesWithPagination> getWageTypes({
     required DashboardManagementEndpointConfiguration configuration,
   }) async {
-    Response response = await _authorizedDio.post(
-      ApiSettings.wageTypesView,
-      data: configuration.body,
-    );
+    try {
+      final authorizedDio = await getAuthorizedDio();
+      Response response = await authorizedDio.post(
+        ApiSettings.wageTypesView,
+        data: configuration.body,
+      );
 
-    final wageTypes = WageTypesWithPagination.fromJson(response.data);
-    return wageTypes;
+      final wageTypes = WageTypesWithPagination.fromJson(response.data);
+      return wageTypes;
+    } on DioError catch (e) {
+      print(e.message);
+
+      throw ApiClientException(ApiClientExceptionType.other, message: e.message);
+    }
   }
 }
 
@@ -210,5 +260,3 @@ class ApiClientException implements Exception {
 
   ApiClientException(this.type, {this.message});
 }
-
-

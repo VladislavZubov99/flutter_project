@@ -3,6 +3,8 @@ import 'package:project/core/api_configurations.dart';
 import 'package:project/domain/modules/dashboard_management/models/common/pagination.dart';
 
 class DashboardManagementFetching<T> extends ChangeNotifier {
+  bool hasError = false;
+  String errorMessage = '';
   List<int> idsList = [];
   bool loading = false;
   int currentPage = 0;
@@ -63,6 +65,10 @@ class DashboardManagementFetching<T> extends ChangeNotifier {
   }
 
   bool get isCanFetch {
+    if(hasError) {
+      return false;
+    }
+
     if (dataWithPagination != null &&
         (dataWithPagination!.page * dataWithPagination!.pageSize >=
             dataWithPagination!.totalCount)) {
@@ -72,10 +78,18 @@ class DashboardManagementFetching<T> extends ChangeNotifier {
     }
   }
 
+  void clearError() {
+    hasError = false;
+    errorMessage = '';
+    notifyListeners();
+  }
+
   void resetData() {
     dataWithPagination = null;
     list = [];
     idsList = [];
+    hasError = false;
+    loading = false;
     currentPage = 0;
   }
 }

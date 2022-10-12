@@ -29,16 +29,26 @@ class CompanyNotifier extends DashboardManagementFetching<CompanyView> {
     final DashboardManagementEndpointConfiguration configuration =
         filterConfiguration.copyWith(page: nextPage);
 
-    dataWithPagination = (await _apiClient.getCompanies(
-      configuration: configuration,
-    ));
+    try {
+      dataWithPagination = (await _apiClient.getCompanies(
+        configuration: configuration,
+      ));
 
-    final newCompaniesList = dataWithPagination!.list;
 
-    list = [...oldCompaniesList, ...newCompaniesList];
+      final newCompaniesList = dataWithPagination!.list;
 
-    loading = false;
-    currentPage = nextPage;
-    notifyListeners();
+      list = [...oldCompaniesList, ...newCompaniesList];
+
+      loading = false;
+      currentPage = nextPage;
+      notifyListeners();
+
+    } on ApiClientException catch(e) {
+      loading = false;
+      hasError = true;
+      errorMessage = e.message ?? '';
+      notifyListeners();
+      return;
+    }
   }
 }

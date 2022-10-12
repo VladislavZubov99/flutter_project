@@ -23,16 +23,24 @@ class RecipientNotifier extends DashboardManagementFetching<RecipientView> {
     final DashboardManagementEndpointConfiguration configuration =
         filterConfiguration.copyWith(page: nextPage);
 
-    dataWithPagination = (await _apiClient.getRecipients(
-      configuration: configuration,
-    ));
+    try {
+      dataWithPagination = (await _apiClient.getRecipients(
+        configuration: configuration,
+      ));
 
-    final newList = dataWithPagination!.list;
+      final newList = dataWithPagination!.list;
 
-    list = [...oldList, ...newList];
+      list = [...oldList, ...newList];
 
-    loading = false;
-    currentPage = nextPage;
-    notifyListeners();
+      loading = false;
+      currentPage = nextPage;
+      notifyListeners();
+    } on ApiClientException catch (e) {
+      loading = false;
+      hasError = true;
+      errorMessage = e.message ?? '';
+      notifyListeners();
+      return;
+    }
   }
 }

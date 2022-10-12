@@ -3,7 +3,7 @@ import 'package:project/domain/modules/dashboard_management/models/data_columns/
 class PayerView extends DataToColumns {
   final double absenceWageSum;
   final int currentStepId;
-  final double? currentStepMainId;
+  final int currentStepMainId;
   final String currentStepName;
   final double difference;
   final double istWageSum;
@@ -30,16 +30,16 @@ class PayerView extends DataToColumns {
 
   factory PayerView.fromJson(Map<String, dynamic> json) {
     return PayerView(
-      absenceWageSum: json['absenceWageSum'],
+      payerId: json['payerId'],
+      payerName: json['payerName'],
       currentStepId: json['currentStepId'],
       currentStepMainId: json['currentStepMainId'],
       currentStepName: json['currentStepName'],
-      difference: json['difference'],
-      istWageSum: json['istWageSum'],
-      payerId: json['payerId'],
-      payerName: json['payerName'],
-      sollIstDifferencePercentage: json['sollIstDifferencePercentage'],
-      sollWageSum: json['sollWageSum'],
+      absenceWageSum: json['absenceWageSum'].toDouble(),
+      difference: json['difference'].toDouble(),
+      istWageSum: json['istWageSum'].toDouble(),
+      sollIstDifferencePercentage: json['sollIstDifferencePercentage'].toDouble(),
+      sollWageSum: json['sollWageSum'].toDouble(),
     );
   }
 

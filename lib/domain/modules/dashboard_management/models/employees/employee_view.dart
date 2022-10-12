@@ -3,7 +3,7 @@ import 'package:project/domain/modules/dashboard_management/models/data_columns/
 class EmployeeView extends DataToColumns {
   final double absenceWageSum;
   final int currentStepId;
-  final double? currentStepMainId;
+  final int currentStepMainId;
   final String currentStepName;
   final double difference;
   final double istWageSum;
@@ -30,16 +30,16 @@ class EmployeeView extends DataToColumns {
 
   factory EmployeeView.fromJson(Map<String, dynamic> json) {
     return EmployeeView(
-      absenceWageSum: json['absenceWageSum'],
+      absenceWageSum: json['absenceWageSum'].toDouble(),
+      difference: json['difference'].toDouble(),
+      istWageSum: json['istWageSum'].toDouble(),
+      sollIstDifferencePercentage: json['sollIstDifferencePercentage'].toDouble(),
+      sollWageSum: json['sollWageSum'].toDouble(),
       currentStepId: json['currentStepId'],
       currentStepMainId: json['currentStepMainId'],
       currentStepName: json['currentStepName'],
-      difference: json['difference'],
-      istWageSum: json['istWageSum'],
       employeeId: json['employeeId'],
       employeeName: json['employeeName'],
-      sollIstDifferencePercentage: json['sollIstDifferencePercentage'],
-      sollWageSum: json['sollWageSum'],
     );
   }
 

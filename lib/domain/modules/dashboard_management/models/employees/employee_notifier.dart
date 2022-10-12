@@ -9,7 +9,9 @@ class EmployeeNotifier extends DashboardManagementFetching<EmployeeView> {
   EmployeeNotifier() : super();
 
   @override
-  Future<void> fetchNext({required DashboardManagementEndpointConfiguration filterConfiguration}) async {
+  Future<void> fetchNext(
+      {required DashboardManagementEndpointConfiguration
+          filterConfiguration}) async {
     if (!isCanFetch || loading) {
       return;
     }
@@ -18,18 +20,27 @@ class EmployeeNotifier extends DashboardManagementFetching<EmployeeView> {
     notifyListeners();
 
     final List<EmployeeView> oldList = [...list];
-    final DashboardManagementEndpointConfiguration configuration = filterConfiguration.copyWith(page: nextPage);
+    final DashboardManagementEndpointConfiguration configuration =
+        filterConfiguration.copyWith(page: nextPage);
 
-    dataWithPagination = (await _apiClient.getEmployees(
-      configuration: configuration,
-    ));
+    try {
+      dataWithPagination = (await _apiClient.getEmployees(
+        configuration: configuration,
+      ));
 
-    final newList = dataWithPagination!.list;
+      final newList = dataWithPagination!.list;
 
-    list = [...oldList, ...newList];
+      list = [...oldList, ...newList];
 
-    loading = false;
-    currentPage = nextPage;
-    notifyListeners();
+      loading = false;
+      currentPage = nextPage;
+      notifyListeners();
+    } on ApiClientException catch (e) {
+      loading = false;
+      hasError = true;
+      errorMessage = e.message ?? '';
+      notifyListeners();
+      return;
+    }
   }
 }

@@ -9,8 +9,8 @@ import 'package:project/utils/validator.dart';
 import 'package:provider/provider.dart';
 
 class _AuthDataStorage {
-  String login = "";
-  String password = "";
+  String login = "admin@test.it";
+  String password = "123456";
 }
 
 class LoginScreen extends StatelessWidget {
@@ -186,6 +186,7 @@ class _DecoratedEmailTextField extends StatelessWidget {
         size: const Size.fromHeight(59),
         alignment: Alignment.topCenter,
         child: TextFormField(
+          initialValue: authDataStorage.login,
           onChanged: (text) => authDataStorage.login = text,
           validator: (value) {
             return Validator.validateEmail(value ?? "");
@@ -243,6 +244,7 @@ class _DecoratedPasswordTextFieldState
         size: const Size.fromHeight(59),
         alignment: Alignment.topCenter,
         child: TextFormField(
+          initialValue: authDataStorage.password,
           obscureText: !_showPassword,
           onChanged: (text) => authDataStorage.password = text,
           validator: (value) {

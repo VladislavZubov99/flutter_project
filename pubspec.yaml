@@ -10,6 +10,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+  flutter_localizations:
+    sdk: flutter
+
   cupertino_icons: ^1.0.2
   dio: ^4.0.6
   flutter_bloc: ^8.0.0
@@ -28,6 +31,11 @@ dependencies:
   spider: ^3.1.0
   expandable: ^5.0.1
   state_machine: ^2.2.9
+  flutter_datetime_picker: ^1.5.1
+  syncfusion_flutter_datepicker: ^20.3.47
+  openid_client: ^0.4.6
+  url_launcher: ^6.1.6
+  flutter_appauth: ^4.2.1
 
 dev_dependencies:
   flutter_test:
@@ -42,4 +50,5 @@ flutter:
     - assets/images/
     - assets/vectors/
     - assets/resources/
+    - assets/language/
     - assets/
